@@ -9,7 +9,7 @@ import java.util.function.Function;
 
 public class MessageBroker {
     private ConcurrentHashMap<String, ConcurrentLinkedQueue<Client>> topics; // will hold all topics in the broker
-    private ConcurrentHashMap<Client, ConcurrentLinkedQueue<String>> registered; //will hold all registered client and their queues
+    private ConcurrentHashMap<String, Client> registered; //will hold all registered clients
     private LogManager logM = LogManager.getInstance();
 
 

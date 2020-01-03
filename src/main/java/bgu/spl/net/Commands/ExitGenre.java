@@ -26,7 +26,6 @@ public class ExitGenre implements Command {
         this.receiptid = receiptid;
     }
 
-    @Override
     public Serializable execute(Object arg) {
         MessageBroker.getInstance().unsubscribe(genre,(Client) arg);
         System.out.println("Exited club "+ genre);
