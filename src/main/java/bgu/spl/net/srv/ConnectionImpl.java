@@ -1,6 +1,8 @@
 package bgu.spl.net.srv;
 import bgu.spl.net.messagebroker.Client;
 import bgu.spl.net.messagebroker.MessageBroker;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Queue;
 
@@ -16,7 +18,12 @@ public class ConnectionImpl implements Connections {
         ConnectionHandler curr = activeUsers.get(connectionId);
         status = (curr!=null);
         if (status)
-            curr.send(msg);
+            try {
+                curr.send(msg);
+            }
+            catch(IOException e){
+                logM.log.severe("ConnectionImpl send :"+e);
+            }
         else {
             logM.log.severe("Connection " + connectionId + " does not appear in active users");
         }
@@ -34,14 +41,8 @@ public class ConnectionImpl implements Connections {
         } else {
             for (Object client : channelClients) {
                 Client currclient = (Client) client; // casting
-                ConnectionHandler curr = activeUsers.get(currclient.getConnectionId());
-                if (curr != null)
-                    curr.send(msg);
-                else {
-                    logM.log.severe("Connection " + currclient.getConnectionId() + " does not appear in active users");
-                }
+                send(currclient.getConnectionId(),msg);
             }
-
         }
     }
 
