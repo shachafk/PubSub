@@ -2,7 +2,6 @@ package bgu.spl.net.Commands;
 import bgu.spl.net.impl.rci.Command;
 import bgu.spl.net.messagebroker.Client;
 import bgu.spl.net.messagebroker.MessageBroker;
-
 import java.io.Serializable;
 
 /**
