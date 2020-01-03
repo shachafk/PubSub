@@ -1,6 +1,6 @@
-package bgu.spl.net.Messages;
+package bgu.spl.net.Commands;
 
-public enum MessageType {
+public enum CommandType {
          Login,
          JoinGenre,
          ExitGenre,

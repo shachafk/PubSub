@@ -10,9 +10,16 @@ public class ConnectionImpl implements Connections {
     private HashMap<Integer,ConnectionHandler> activeUsers = new HashMap<>();
     private LogManager logM = LogManager.getInstance();
     private MessageBroker messageBroker = MessageBroker.getInstance();
+    private static class singletonHolder{ private static ConnectionImpl ConnectionInstance = new ConnectionImpl();}
+
+
+    public static ConnectionImpl getInstance() {
+        return ConnectionImpl.singletonHolder.ConnectionInstance;
+    }
 
     /** Sends a message T to client represented by the given connectionId.
      */
+
     public boolean send(int connectionId, Object msg) {
         boolean status;
         ConnectionHandler curr = activeUsers.get(connectionId);
