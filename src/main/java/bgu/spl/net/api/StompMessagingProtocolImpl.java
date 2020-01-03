@@ -1,4 +1,5 @@
 package bgu.spl.net.api;
+import bgu.spl.net.Commands.JoinGenre;
 import bgu.spl.net.messagebroker.Client;
 import bgu.spl.net.messagebroker.MessageBroker;
 import bgu.spl.net.srv.Connections;
@@ -20,9 +21,31 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
         this.connectionid = connectionId;
         this.connections = connections;
     }
+
     @Override
-    public void process(String message) {
+    public void process(Serializable message) {
+        Message msg = (Message) message;
+        switch (msg.getCommand()){
+            case ("CONNECT"):
+                System.out.println("CONNECT");
+                break;
+            case ("SUBSCRIBE"):
+                System.out.println("SUBSCRIBE");
+                break;
+            case ("SEND"):
+                System.out.println("SEND");
+                break;
+            case ("DISCONNECT"):
+                System.out.println("DISCONNECT");
+                break;
+            case ("UNSUBSCRIBE"):
+                System.out.println("UNSUBSCRIBE");
+                break;
+        }
     }
+
+
+
     @Override
     public boolean shouldTerminate() {
         if (this.terminate ==true){
@@ -35,4 +58,6 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
     public MessagingProtocol<T> get() {
         return null;
     }
+
+
 }
