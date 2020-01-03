@@ -63,5 +63,7 @@ public class ConnectionImpl implements Connections {
     public HashMap<Integer,ConnectionHandler> getActiveUsers(){
         return activeUsers;
     }
-
+    public void addToActiveUsers(Integer key,ConnectionHandler value){
+        activeUsers.put(key,value);
+    }
 }

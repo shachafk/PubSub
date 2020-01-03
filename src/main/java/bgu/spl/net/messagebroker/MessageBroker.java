@@ -48,4 +48,7 @@ public class MessageBroker {
     public ConcurrentHashMap<String, ConcurrentLinkedQueue<Client>> getTopics() {
         return topics;
     }
+    public ConcurrentHashMap<Client, ConcurrentLinkedQueue<String>> getRegistered(){
+        return registered;
+    }
 }

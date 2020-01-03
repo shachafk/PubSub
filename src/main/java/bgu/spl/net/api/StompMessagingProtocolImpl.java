@@ -20,12 +20,9 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
         this.connectionid = connectionId;
         this.connections = connections;
     }
-
     @Override
     public void process(String message) {
-
     }
-
     @Override
     public boolean shouldTerminate() {
         if (this.terminate ==true){
