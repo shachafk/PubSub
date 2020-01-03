@@ -53,4 +53,8 @@ public class ConnectionImpl implements Connections {
         activeUsers.remove(connectionId);
         logM.log.info("Disconnect - connectionId " + connectionId + " removed from activeUser");
     }
+    public HashMap<Integer,ConnectionHandler> getActiveUsers(){
+        return activeUsers;
+    }
+
 }

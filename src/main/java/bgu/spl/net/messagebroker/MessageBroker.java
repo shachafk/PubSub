@@ -20,5 +20,7 @@ public class MessageBroker {
         return topics.get(s); //may return null
     }
 
-
+    public ConcurrentHashMap<String, ConcurrentLinkedQueue<Client>> getTopics() {
+        return topics;
+    }
 }
