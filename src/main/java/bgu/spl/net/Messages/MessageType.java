@@ -1,8 +1,6 @@
 package bgu.spl.net.Messages;
 
-public class MessageType {
-
-     static enum type{
+public enum MessageType {
          Login,
          JoinGenre,
          ExitGenre,
@@ -11,6 +9,5 @@ public class MessageType {
          ReturnBook,
          GenreBookStatus,
          Logout
-    }
-
 }
+
