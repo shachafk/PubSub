@@ -15,6 +15,7 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
     private BufferedInputStream in;
     private BufferedOutputStream out;
     private volatile boolean connected = true;
+    private LogManager logM = LogManager.getInstance();
 
     public BlockingConnectionHandler(Socket sock, MessageEncoderDecoder<T> reader, MessagingProtocol<T> protocol) {
         this.sock = sock;
@@ -54,7 +55,11 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
     }
 
     @Override
-    public void send(T msg) {
-        //IMPLEMENT IF NEEDED
+    public void send(T msg) throws IOException {
+           out=new BufferedOutputStream(sock.getOutputStream());
+           byte[] tmp=encdec.encode(msg);
+           out.write(tmp);
+           out.flush();
+
     }
 }
