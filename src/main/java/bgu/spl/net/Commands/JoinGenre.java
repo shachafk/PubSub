@@ -1,4 +1,5 @@
 package bgu.spl.net.Commands;
+import bgu.spl.net.api.Message;
 import bgu.spl.net.impl.rci.Command;
 import bgu.spl.net.messagebroker.Client;
 import bgu.spl.net.messagebroker.MessageBroker;
@@ -28,6 +29,10 @@ public class JoinGenre implements Command {
     public Serializable execute(Object arg) {
         MessageBroker.getInstance().subscribe(genre,(Client) arg);
         System.out.println("Joined club "+ genre);
-        return new Receipt(receiptid,"Subscribed successfully");
+        Message receipt = new Message();
+        receipt.setCommand("RECEIPT");
+        receipt.addHeader("receipt-id", ""+ receiptid);
+        receipt.setBody("Subscribed successfully from genre " + genre);
+        return receipt;
     }
 }

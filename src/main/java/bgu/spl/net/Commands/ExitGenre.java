@@ -1,5 +1,6 @@
 package bgu.spl.net.Commands;
 
+import bgu.spl.net.api.Message;
 import bgu.spl.net.impl.rci.Command;
 import bgu.spl.net.messagebroker.Client;
 import bgu.spl.net.messagebroker.MessageBroker;
@@ -29,6 +30,10 @@ public class ExitGenre implements Command {
     public Serializable execute(Object arg) {
         MessageBroker.getInstance().unsubscribe(genre,(Client) arg);
         System.out.println("Exited club "+ genre);
-        return new Receipt(receiptid,"Unsubscribed successfully");
+        Message receipt = new Message();
+        receipt.setCommand("RECEIPT");
+        receipt.addHeader("receipt-id", ""+ receiptid);
+        receipt.setBody("Unsubscribed successfully from genre " + genre);
+        return receipt;
     }
 }
