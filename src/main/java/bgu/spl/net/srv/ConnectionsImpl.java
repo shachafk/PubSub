@@ -1,6 +1,7 @@
 package bgu.spl.net.srv;
 import bgu.spl.net.api.Message;
 import bgu.spl.net.messagebroker.User;
+import com.sun.security.ntlm.Client;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -99,5 +100,13 @@ public class ConnectionsImpl implements Connections {
     public void addMsgPerclient(Message msg, User user){
         this.msgClientMap.put(msg, user);
     }
-
+    public void addToLoggedIn(String name, User user){
+        loggedIn.put(name,user);
+    }
+    public ConcurrentHashMap<String, ConcurrentLinkedQueue<User>> getTopics() {
+        return topics;
+    }
+    public HashMap<Integer, ConnectionHandler> getActiveUsers() {
+        return activeUsers;
+    }
 }

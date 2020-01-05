@@ -1,8 +1,5 @@
 package bgu.spl.net.api;
-import bgu.spl.net.Commands.AddBook;
-import bgu.spl.net.Commands.ExitGenre;
-import bgu.spl.net.Commands.JoinGenre;
-import bgu.spl.net.Commands.ReturnBook;
+import bgu.spl.net.Commands.*;
 import bgu.spl.net.impl.rci.Command;
 import bgu.spl.net.messagebroker.User;
 import bgu.spl.net.srv.Connections;
@@ -27,8 +24,13 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
         User user = connections.getClientByMsg((Message) message);
         Message msg = (Message) message;
         switch (msg.getCommand()){
-            case ("CONNECT"):
+            case ("CONNECT"): {
+                Command a = new Login(msg);
+                Message toSend = (Message) a.execute(user);
+                connections.send(user.getConnectionId(),toSend);
                 System.out.println("CONNECT");
+            }
+
                 break;
             case ("SUBSCRIBE"): {
                 Command c = new JoinGenre(msg);
@@ -51,8 +53,12 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 }
                 break;
             }
-            case ("DISCONNECT"):
+            case ("DISCONNECT"):{
+                Command c = new Logout(msg);
+                Message toSend = (Message) c.execute(user);
+                connections.send(user.getConnectionId(),toSend);
                 System.out.println("DISCONNECT");
+            }
                 break;
             case ("UNSUBSCRIBE"): {
                 Command c = new ExitGenre(msg);
