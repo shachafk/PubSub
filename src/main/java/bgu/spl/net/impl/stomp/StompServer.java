@@ -1,22 +1,28 @@
 package bgu.spl.net.impl.stomp;
 
+import bgu.spl.net.api.LineMessageEncoderDecoder;
+import bgu.spl.net.api.MessageID;
 import bgu.spl.net.api.StompMessagingProtocolImpl;
 import bgu.spl.net.impl.rci.ObjectEncoderDecoder;
-import bgu.spl.net.messagebroker.MessageBroker;
+import bgu.spl.net.srv.ConnectionsImpl;
 import bgu.spl.net.srv.Server;
 
 public class StompServer {
 
     public static void main(String[] args) {
 
-        if (args.length != 1){
-            System.out.println("Enter server mode as program argument");
+        if (args.length < 2){
+            System.out.println("Enter port and server mode as program argument");
         }
         else {
-            switch (args[0].toLowerCase()){
+            ConnectionsImpl conn = ConnectionsImpl.getInstance();
+        int port = Integer.parseInt(args[0]);
+        switch (args[1].toLowerCase()){
                 case "tpc":
                     System.out.println("Thread per client mode");
-                    Server.threadPerClient(7777,new StompMessagingProtocolImpl<>(MessageBroker.getInstance()),ObjectEncoderDecoder::new).serve();
+                    Server.threadPerClient(port,
+                            ()-> new StompMessagingProtocolImpl<>(),
+                            ()-> new LineMessageEncoderDecoder<>()).serve();
                     break;
                 case "reactor":
                     System.out.println("Reactor mode");
