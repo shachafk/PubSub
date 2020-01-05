@@ -2,6 +2,7 @@ package bgu.spl.net.api;
 import bgu.spl.net.Commands.AddBook;
 import bgu.spl.net.Commands.ExitGenre;
 import bgu.spl.net.Commands.JoinGenre;
+import bgu.spl.net.Commands.ReturnBook;
 import bgu.spl.net.impl.rci.Command;
 import bgu.spl.net.messagebroker.Client;
 import bgu.spl.net.srv.Connections;
@@ -39,6 +40,10 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 System.out.println("SEND");
                 if (msg.getBody().indexOf("added") > 0) { //addBookCase
                     Command c = new AddBook(msg);
+                    c.execute(connections.getClientByMsg((Message) message));
+                }
+                else if (msg.getBody().indexOf("Returning") > 0) { //ReturnBookCase
+                    Command c = new ReturnBook(msg);
                     c.execute(connections.getClientByMsg((Message) message));
                 }
                 break;

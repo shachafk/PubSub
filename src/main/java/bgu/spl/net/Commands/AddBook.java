@@ -31,7 +31,6 @@ public class AddBook implements Command {
         }
     }
 
-
     @Override
     public Serializable execute(Object arg) {
         Client client = (Client) arg;
