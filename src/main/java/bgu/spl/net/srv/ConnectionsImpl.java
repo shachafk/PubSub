@@ -41,6 +41,10 @@ public class ConnectionsImpl implements Connections {
         return status;
     }
 
+    public void addActiveUser(int connectionID,ConnectionHandler handler){
+        this.activeUsers.put(connectionID,handler);
+    }
+
     /**
     Sends a message T to clients subscribed to channel.
      */
@@ -92,4 +96,8 @@ public class ConnectionsImpl implements Connections {
     public ConcurrentHashMap<String, Client> getLoggedIn() {
         return loggedIn;
     }
+    public void addMsgPerclient(Message msg,Client client){
+        this.msgClientMap.put(msg,client);
+    }
+
 }
