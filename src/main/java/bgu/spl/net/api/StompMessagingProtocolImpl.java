@@ -1,10 +1,7 @@
 package bgu.spl.net.api;
-import bgu.spl.net.Commands.AddBook;
-import bgu.spl.net.Commands.ExitGenre;
-import bgu.spl.net.Commands.JoinGenre;
-import bgu.spl.net.Commands.ReturnBook;
+import bgu.spl.net.Commands.*;
 import bgu.spl.net.impl.rci.Command;
-import bgu.spl.net.messagebroker.User;
+import bgu.spl.net.PassiveObjects.User;
 import bgu.spl.net.srv.Connections;
 import java.io.Serializable;
 
@@ -48,6 +45,15 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                     Command c = new ReturnBook(msg);
                     Message toSend = (Message)  c.execute(user);
                     connections.send(msg.getHeader().get(0).getSecond(),toSend);
+                }
+                else if (msg.getBody().indexOf("book status") > 0) { //GenreBookStatusCase
+                    String genre = msg.getHeader().get(0).getSecond();
+                    for (Object tmp : connections.getUsersByTopic(genre)) { //iterate over all users subscribed to genre
+                        User tmpUser = (User) tmp;
+                        Command c = new GenreBookStatus(msg);
+                        Message toSend = (Message) c.execute(tmp);
+                        connections.send(genre, toSend);
+                    }
                 }
                 break;
             }

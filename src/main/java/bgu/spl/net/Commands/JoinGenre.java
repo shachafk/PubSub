@@ -1,7 +1,7 @@
 package bgu.spl.net.Commands;
 import bgu.spl.net.api.Message;
 import bgu.spl.net.impl.rci.Command;
-import bgu.spl.net.messagebroker.User;
+import bgu.spl.net.PassiveObjects.User;
 import bgu.spl.net.srv.ConnectionsImpl;
 import bgu.spl.net.srv.LogManager;
 
@@ -38,8 +38,10 @@ public class JoinGenre implements Command {
     @Override
     public Serializable execute(Object arg) {
         User user = (User) arg;
+        logM.log.info("New sub");
         ConnectionsImpl conn = ConnectionsImpl.getInstance();
         conn.subscribe(genre, user);
+        user.addSubscriptionIdPerTopic(genre,id);
         System.out.println("Joined club "+ genre);
         Message receipt = new Message();
         receipt.setCommand("RECEIPT");
