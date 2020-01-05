@@ -85,7 +85,11 @@ public class ConnectionsImpl implements Connections {
         return msgClientMap.get(m);
     }
 
+    public ConcurrentHashMap<String, Client> getRegistered() {
+        return registered;
+    }
 
-
-
+    public ConcurrentHashMap<String, Client> getLoggedIn() {
+        return loggedIn;
+    }
 }
