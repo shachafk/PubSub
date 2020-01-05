@@ -5,13 +5,7 @@ public class Client {
     private Integer ConnectionId;
     private String name;
     private Inventory inventory;
-    private String password;
-
-    public Client(Integer ConnectionId,String name,String password){
-        this.ConnectionId=ConnectionId;
-        this.name=name;
-        this.password=password;
-    }
+    private int subscription;
 
     public Integer getConnectionId() {
         return ConnectionId;
@@ -24,7 +18,16 @@ public class Client {
     public Inventory getInventory() {
         return inventory;
     }
-    public String getPassword(){
-        return password;
+
+    public Client getClient(Integer connectionId){
+        if (this.ConnectionId == connectionId){
+            return this;
+        }
+        else
+            return null;
+    }
+
+    public int getSubscription() {
+        return subscription;
     }
 }
