@@ -17,4 +17,12 @@ public class Client {
     public Inventory getInventory() {
         return inventory;
     }
+
+    public Client getClient(Integer connectionId){
+        if (this.ConnectionId == connectionId){
+            return this;
+        }
+        else
+            return null;
+    }
 }

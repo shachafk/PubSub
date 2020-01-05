@@ -1,20 +1,22 @@
 package bgu.spl.net.srv;
+import bgu.spl.net.api.Message;
 import bgu.spl.net.messagebroker.Client;
-import bgu.spl.net.messagebroker.MessageBroker;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class ConnectionImpl implements Connections {
+public class ConnectionsImpl implements Connections {
     private HashMap<Integer,ConnectionHandler> activeUsers = new HashMap<>();
     private LogManager logM = LogManager.getInstance();
-    private MessageBroker messageBroker = MessageBroker.getInstance();
-    private static class singletonHolder{ private static ConnectionImpl ConnectionInstance = new ConnectionImpl();}
-
-
-    public static ConnectionImpl getInstance() {
-        return ConnectionImpl.singletonHolder.ConnectionInstance;
+    private ConcurrentHashMap<String, ConcurrentLinkedQueue<Client>> topics; // will hold all topics in the broker
+    private ConcurrentHashMap<String, Client> registered; //will hold all registered clients
+    private ConcurrentHashMap<Message,Client> msgClientMap;
+    private static class singletonHolder{ private static ConnectionsImpl ConnectionInstance = new ConnectionsImpl();}
+    public static ConnectionsImpl getInstance() {
+        return ConnectionsImpl.singletonHolder.ConnectionInstance;
     }
 
     /** Sends a message T to client represented by the given connectionId.
@@ -29,7 +31,7 @@ public class ConnectionImpl implements Connections {
                 curr.send(msg);
             }
             catch(IOException e){
-                logM.log.severe("ConnectionImpl send :"+e);
+                logM.log.severe("ConnectionsImpl send :"+e);
             }
         else {
             logM.log.severe("Connection " + connectionId + " does not appear in active users");
@@ -42,7 +44,7 @@ public class ConnectionImpl implements Connections {
     Sends a message T to clients subscribed to channel.
      */
     public void send(String channel, Object msg) {
-        Queue channelClients = messageBroker.getClientPerTopic(channel);
+        Queue channelClients = topics.get(channel);
         if (channelClients == null || channelClients.size() == 0) {
             logM.log.warning("no clients are subscribed to channel: " + channel);
         } else {
@@ -60,4 +62,29 @@ public class ConnectionImpl implements Connections {
         activeUsers.remove(connectionId);
         logM.log.info("Disconnect - connectionId " + connectionId + " removed from activeUser");
     }
+
+    public void subscribe(String genre, Client client) {
+        ConcurrentLinkedQueue<Client> queue = topics.computeIfAbsent(genre, k -> new ConcurrentLinkedQueue<>());
+        queue.add(client);
+        logM.log.info("Client: " + client.getName() + " subscribed from genre: "+ genre);
+    }
+
+    /**
+     * Unsubscribe client from topic genre
+     * @param genre
+     * @param client
+     */
+    public void unsubscribe(String genre, Client client) {
+        ConcurrentLinkedQueue<Client> queue = topics.get(genre);
+        queue.remove(client);
+        logM.log.info("Client: " + client.getName() + " unsubscribed from genre: "+ genre);
+    }
+
+    public Client getClientByMsg(Message m){
+        return msgClientMap.get(m);
+    }
+
+
+
+
 }

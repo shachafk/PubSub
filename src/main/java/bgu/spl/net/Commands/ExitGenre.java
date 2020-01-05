@@ -3,7 +3,8 @@ package bgu.spl.net.Commands;
 import bgu.spl.net.api.Message;
 import bgu.spl.net.impl.rci.Command;
 import bgu.spl.net.messagebroker.Client;
-import bgu.spl.net.messagebroker.MessageBroker;
+import bgu.spl.net.srv.ConnectionsImpl;
+import bgu.spl.net.srv.LogManager;
 
 import java.io.Serializable;
 
@@ -19,15 +20,25 @@ public class ExitGenre implements Command {
     private String genre;
     private int id;
     private int receiptid;
+    private LogManager logM = LogManager.getInstance();
 
-    public ExitGenre(String genre, int id,int receiptid){
-        this.genre = genre;
-        this.id = id;
-        this.receiptid = receiptid;
+
+    public ExitGenre(Message msg){
+        if (!msg.getCommand().equals("SUBSCRIBE") | msg.getHeader().size() < 3) {
+            logM.log.severe("ExitGenre msg is not valid");
+            return;
+        } else {
+            this.genre = msg.getHeader().get(0).getSecond();
+            this.id = Integer.valueOf(msg.getHeader().get(1).getSecond());
+            this.receiptid = Integer.valueOf(msg.getHeader().get(2).getSecond());
+        }
     }
 
+
     public Serializable execute(Object arg) {
-        MessageBroker.getInstance().unsubscribe(genre,(Client) arg);
+        Client client = (Client) arg;
+        ConnectionsImpl conn = ConnectionsImpl.getInstance();
+        conn.unsubscribe(genre,client);
         System.out.println("Exited club "+ genre);
         Message receipt = new Message();
         receipt.setCommand("RECEIPT");
