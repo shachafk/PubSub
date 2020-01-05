@@ -1,7 +1,6 @@
 package bgu.spl.net.srv;
 import bgu.spl.net.api.Message;
 import bgu.spl.net.messagebroker.User;
-import com.sun.security.ntlm.Client;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ConnectionsImpl implements Connections {
-    private HashMap<Integer,ConnectionHandler> activeUsers = new HashMap<>();
+    private HashMap<Integer,ConnectionHandler> activeClients = new HashMap<>();
     private LogManager logM = LogManager.getInstance();
     private ConcurrentHashMap<String, ConcurrentLinkedQueue<User>> topics; // will hold all topics in the broker
     private ConcurrentHashMap<String, User> registered; //will hold all registered clients
@@ -26,7 +25,7 @@ public class ConnectionsImpl implements Connections {
 
     public boolean send(int connectionId, Object msg) {
         boolean status;
-        ConnectionHandler curr = activeUsers.get(connectionId);
+        ConnectionHandler curr = activeClients.get(connectionId);
         status = (curr!=null);
         if (status)
             try {
@@ -43,7 +42,7 @@ public class ConnectionsImpl implements Connections {
     }
 
     public void addActiveUser(int connectionID,ConnectionHandler handler){
-        this.activeUsers.put(connectionID,handler);
+        this.activeClients.put(connectionID,handler);
     }
 
     /**
@@ -65,7 +64,7 @@ public class ConnectionsImpl implements Connections {
      Removes an active client connectionId from the map
      */
     public void disconnect(int connectionId) {
-        activeUsers.remove(connectionId);
+        activeClients.remove(connectionId);
         logM.log.info("Disconnect - connectionId " + connectionId + " removed from activeUser");
     }
 
@@ -106,7 +105,7 @@ public class ConnectionsImpl implements Connections {
     public ConcurrentHashMap<String, ConcurrentLinkedQueue<User>> getTopics() {
         return topics;
     }
-    public HashMap<Integer, ConnectionHandler> getActiveUsers() {
-        return activeUsers;
+    public HashMap<Integer, ConnectionHandler> getActiveClients() {
+        return activeClients;
     }
 }

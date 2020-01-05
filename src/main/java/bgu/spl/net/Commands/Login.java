@@ -1,6 +1,5 @@
 package bgu.spl.net.Commands;
 
-import bgu.spl.net.Commands.CommandType;
 import bgu.spl.net.api.Message;
 
 import bgu.spl.net.impl.rci.Command;
@@ -34,7 +33,7 @@ public class Login implements Command {
             User user = (User) arg;
             String line="-----"+System.lineSeparator();
             Integer connectionId = user.getConnectionId();
-            ConnectionHandler handler=connections.getActiveUsers().get(connectionId);
+            ConnectionHandler handler=connections.getActiveClients().get(connectionId);
             if (!handler.statusOk()){
                 Message error = new Message();
                 error.setCommand("ERROR");
@@ -44,6 +43,7 @@ public class Login implements Command {
                 logM.log.severe("user" + user.getName() + "already logged in");
                 return error;
             }
+
             if (connections.getRegistered().containsKey(username)) { //checks weather user ever signed in
                 if (connections.getLoggedIn().contains(username)) {
                     Message error = new Message();
