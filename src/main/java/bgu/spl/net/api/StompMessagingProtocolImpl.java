@@ -25,6 +25,7 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
 
     @Override
     public void process(Serializable message) {
+        Client client = connections.getClientByMsg((Message) message);
         Message msg = (Message) message;
         switch (msg.getCommand()){
             case ("CONNECT"):
@@ -32,7 +33,8 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 break;
             case ("SUBSCRIBE"): {
                 Command c = new JoinGenre(msg);
-                c.execute(connections.getClientByMsg((Message) message));
+                Message toSend = (Message) c.execute(client);
+                connections.send(client.getConnectionId(),toSend);
                 System.out.println("SUBSCRIBE");
                 break;
             }
@@ -40,11 +42,13 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 System.out.println("SEND");
                 if (msg.getBody().indexOf("added") > 0) { //addBookCase
                     Command c = new AddBook(msg);
-                    c.execute(connections.getClientByMsg((Message) message));
+                    Message toSend = (Message)  c.execute(client);
+                    connections.send(msg.getHeader().get(0).getSecond(),toSend);
                 }
                 else if (msg.getBody().indexOf("Returning") > 0) { //ReturnBookCase
                     Command c = new ReturnBook(msg);
-                    c.execute(connections.getClientByMsg((Message) message));
+                    Message toSend = (Message)  c.execute(client);
+                    connections.send(msg.getHeader().get(0).getSecond(),toSend);
                 }
                 break;
             }
@@ -53,7 +57,8 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 break;
             case ("UNSUBSCRIBE"): {
                 Command c = new ExitGenre(msg);
-                c.execute(connections.getClientByMsg((Message) message));
+                Message toSend = (Message)  c.execute(client);
+                connections.send(client.getConnectionId(),toSend);
                 System.out.println("UNSUBSCRIBE");
                 break;
             }
