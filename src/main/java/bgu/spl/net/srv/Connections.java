@@ -1,9 +1,9 @@
 package bgu.spl.net.srv;
 
 import bgu.spl.net.api.Message;
-import bgu.spl.net.messagebroker.Client;
+import bgu.spl.net.PassiveObjects.User;
 
-import java.io.IOException;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public interface Connections<T> {
 
@@ -12,5 +12,7 @@ public interface Connections<T> {
     void send(String channel, T msg);
 
     void disconnect(int connectionId);
-     Client getClientByMsg(Message m);
-}
+     User getClientByMsg(Message m);
+    public ConcurrentLinkedQueue getUsersByTopic(String genre);
+
+    }

@@ -1,9 +1,8 @@
 package bgu.spl.net.srv;
 
 import bgu.spl.net.api.MessageEncoderDecoder;
-import bgu.spl.net.api.MessagingProtocol;
 import bgu.spl.net.api.StompMessagingProtocol;
-import bgu.spl.net.messagebroker.Client;
+import bgu.spl.net.PassiveObjects.User;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -18,6 +17,8 @@ public abstract class BaseServer<T> implements Server<T> {
     private ServerSocket sock;
     private int connectionIDCounter =1;
     private ConnectionsImpl connections;
+    private LogManager logM = LogManager.getInstance();
+
 
     public BaseServer(
             int port,
@@ -42,13 +43,15 @@ public abstract class BaseServer<T> implements Server<T> {
             while (!Thread.currentThread().isInterrupted()) {
                 Socket clientSock = serverSock.accept();
 
-                Client defaultUser = new Client(connectionIDCounter);
+                User defaultUser = new User(connectionIDCounter);
+                logM.log.info("New default user created, connectionid: "+ connectionIDCounter);
                 BlockingConnectionHandler<T> handler = new BlockingConnectionHandler<>(
                         clientSock,
                         encdecFactory.get(),
                         protocolFactory.get(),ConnectionsImpl.getInstance(),connectionIDCounter,
                         defaultUser);
-                this.connections.addActiveUser(connectionIDCounter,handler);
+                logM.log.info("New connection handler created, connectionid: "+ connectionIDCounter);
+                this.connections.addActiveClient(connectionIDCounter,handler);
                 this.connectionIDCounter++;
 
                 execute(handler);

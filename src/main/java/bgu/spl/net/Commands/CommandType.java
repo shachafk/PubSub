@@ -8,6 +8,7 @@ public enum CommandType {
          BorrowBook,
          ReturnBook,
          GenreBookStatus,
-         Logout
+         Logout,
+    GenreBookStatusResponse
 }
 
