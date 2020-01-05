@@ -1,13 +1,11 @@
 package bgu.spl.net.Commands;
 import bgu.spl.net.api.Message;
 import bgu.spl.net.impl.rci.Command;
-import bgu.spl.net.messagebroker.Client;
-import bgu.spl.net.srv.Connections;
+import bgu.spl.net.messagebroker.User;
 import bgu.spl.net.srv.ConnectionsImpl;
 import bgu.spl.net.srv.LogManager;
 
 import java.io.Serializable;
-import java.sql.Connection;
 
 /**
  * Join Genre Reading Club Command
@@ -39,9 +37,9 @@ public class JoinGenre implements Command {
 
     @Override
     public Serializable execute(Object arg) {
-        Client client = (Client) arg;
+        User user = (User) arg;
         ConnectionsImpl conn = ConnectionsImpl.getInstance();
-        conn.subscribe(genre,client);
+        conn.subscribe(genre, user);
         System.out.println("Joined club "+ genre);
         Message receipt = new Message();
         receipt.setCommand("RECEIPT");

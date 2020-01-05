@@ -1,6 +1,6 @@
 package bgu.spl.net.messagebroker;
 
-public class Client {
+public class User {
 
     private Integer connectionId;
     private boolean isDefault;
@@ -8,15 +8,14 @@ public class Client {
     private String password;
     private Inventory inventory;
     private int subscription;
-    private String password;
 
 
-    public Client(int connectionId){
+    public User(int connectionId){
         this.connectionId = connectionId;
         this.isDefault = true;
     }
 
-    public Client(int connectionId, String name, String password){
+    public User(int connectionId, String name, String password){
         this.connectionId = connectionId;
         this.name = name;
         this.password = password;
@@ -41,7 +40,7 @@ public class Client {
         return inventory;
     }
 
-    public Client getClient(Integer connectionId){
+    public User getClient(Integer connectionId){
         if (this.connectionId == connectionId){
             return this;
         }

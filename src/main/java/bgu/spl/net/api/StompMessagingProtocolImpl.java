@@ -4,13 +4,12 @@ import bgu.spl.net.Commands.ExitGenre;
 import bgu.spl.net.Commands.JoinGenre;
 import bgu.spl.net.Commands.ReturnBook;
 import bgu.spl.net.impl.rci.Command;
-import bgu.spl.net.messagebroker.Client;
+import bgu.spl.net.messagebroker.User;
 import bgu.spl.net.srv.Connections;
 import java.io.Serializable;
-import java.util.function.Supplier;
 
 public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Serializable> {
-    private Client client;
+    private User user;
     private int connectionid;
     private Connections connections;
     private boolean terminate;
@@ -25,7 +24,7 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
 
     @Override
     public void process(Serializable message) {
-        Client client = connections.getClientByMsg((Message) message);
+        User user = connections.getClientByMsg((Message) message);
         Message msg = (Message) message;
         switch (msg.getCommand()){
             case ("CONNECT"):
@@ -33,8 +32,8 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 break;
             case ("SUBSCRIBE"): {
                 Command c = new JoinGenre(msg);
-                Message toSend = (Message) c.execute(client);
-                connections.send(client.getConnectionId(),toSend);
+                Message toSend = (Message) c.execute(user);
+                connections.send(user.getConnectionId(),toSend);
                 System.out.println("SUBSCRIBE");
                 break;
             }
@@ -42,12 +41,12 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 System.out.println("SEND");
                 if (msg.getBody().indexOf("added") > 0) { //addBookCase
                     Command c = new AddBook(msg);
-                    Message toSend = (Message)  c.execute(client);
+                    Message toSend = (Message)  c.execute(user);
                     connections.send(msg.getHeader().get(0).getSecond(),toSend);
                 }
                 else if (msg.getBody().indexOf("Returning") > 0) { //ReturnBookCase
                     Command c = new ReturnBook(msg);
-                    Message toSend = (Message)  c.execute(client);
+                    Message toSend = (Message)  c.execute(user);
                     connections.send(msg.getHeader().get(0).getSecond(),toSend);
                 }
                 break;
@@ -57,8 +56,8 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 break;
             case ("UNSUBSCRIBE"): {
                 Command c = new ExitGenre(msg);
-                Message toSend = (Message)  c.execute(client);
-                connections.send(client.getConnectionId(),toSend);
+                Message toSend = (Message)  c.execute(user);
+                connections.send(user.getConnectionId(),toSend);
                 System.out.println("UNSUBSCRIBE");
                 break;
             }

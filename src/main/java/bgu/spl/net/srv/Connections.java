@@ -1,9 +1,7 @@
 package bgu.spl.net.srv;
 
 import bgu.spl.net.api.Message;
-import bgu.spl.net.messagebroker.Client;
-
-import java.io.IOException;
+import bgu.spl.net.messagebroker.User;
 
 public interface Connections<T> {
 
@@ -12,5 +10,5 @@ public interface Connections<T> {
     void send(String channel, T msg);
 
     void disconnect(int connectionId);
-     Client getClientByMsg(Message m);
+     User getClientByMsg(Message m);
 }

@@ -1,9 +1,8 @@
 package bgu.spl.net.srv;
 
 import bgu.spl.net.api.MessageEncoderDecoder;
-import bgu.spl.net.api.MessagingProtocol;
 import bgu.spl.net.api.StompMessagingProtocol;
-import bgu.spl.net.messagebroker.Client;
+import bgu.spl.net.messagebroker.User;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -42,7 +41,7 @@ public abstract class BaseServer<T> implements Server<T> {
             while (!Thread.currentThread().isInterrupted()) {
                 Socket clientSock = serverSock.accept();
 
-                Client defaultUser = new Client(connectionIDCounter);
+                User defaultUser = new User(connectionIDCounter);
                 BlockingConnectionHandler<T> handler = new BlockingConnectionHandler<>(
                         clientSock,
                         encdecFactory.get(),

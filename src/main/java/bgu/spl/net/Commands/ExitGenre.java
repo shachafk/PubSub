@@ -2,7 +2,7 @@ package bgu.spl.net.Commands;
 
 import bgu.spl.net.api.Message;
 import bgu.spl.net.impl.rci.Command;
-import bgu.spl.net.messagebroker.Client;
+import bgu.spl.net.messagebroker.User;
 import bgu.spl.net.srv.ConnectionsImpl;
 import bgu.spl.net.srv.LogManager;
 
@@ -37,9 +37,9 @@ public class ExitGenre implements Command {
 
 
     public Serializable execute(Object arg) {
-        Client client = (Client) arg;
+        User user = (User) arg;
         ConnectionsImpl conn = ConnectionsImpl.getInstance();
-        conn.unsubscribe(genre,client);
+        conn.unsubscribe(genre, user);
         System.out.println("Exited club "+ genre);
         Message receipt = new Message();
         receipt.setCommand("RECEIPT");

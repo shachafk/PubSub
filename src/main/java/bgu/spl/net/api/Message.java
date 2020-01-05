@@ -1,5 +1,4 @@
 package bgu.spl.net.api;
-import bgu.spl.net.messagebroker.Client;
 import bgu.spl.net.srv.Pair;
 import java.io.Serializable;
 import java.util.LinkedList;

@@ -2,15 +2,13 @@ package bgu.spl.net.srv;
 
 import bgu.spl.net.api.Message;
 import bgu.spl.net.api.MessageEncoderDecoder;
-import bgu.spl.net.api.MessagingProtocol;
 import bgu.spl.net.api.StompMessagingProtocol;
-import bgu.spl.net.messagebroker.Client;
+import bgu.spl.net.messagebroker.User;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.sql.Connection;
 
 public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler<T> {
 
@@ -23,15 +21,15 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
     private LogManager logM = LogManager.getInstance();
     private ConnectionsImpl connections;
     private int connectionID;
-    private Client activeUser;
+    private User activeUser;
 
-    public BlockingConnectionHandler(Socket sock, MessageEncoderDecoder<T> reader, StompMessagingProtocol<T> protocol,ConnectionsImpl connections, int connectionID, Client activeClient) {
+    public BlockingConnectionHandler(Socket sock, MessageEncoderDecoder<T> reader, StompMessagingProtocol<T> protocol,ConnectionsImpl connections, int connectionID, User activeUser) {
         this.sock = sock;
         this.encdec = reader;
         this.protocol = protocol;
         this.connections = connections;
         this.connectionID = connectionID;
-        this.activeUser = activeClient;
+        this.activeUser = activeUser;
     }
 
     @Override
@@ -47,7 +45,7 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
             }
 
             if (nextMessage.getHeader().size()>0) {
-                this.connections.addMsgPerclient(nextMessage,activeClient);
+                this.connections.addMsgPerclient(nextMessage,activeUser);
                 protocol.process((T) nextMessage); //should send the response
             }
 
@@ -72,7 +70,7 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
 
     }
 
-    public void setActiveUser(Client activeClient) {
-        this.activeUser = activeClient;
+    public void setActiveUser(User activeUser) {
+        this.activeUser = activeUser;
     }
 }
