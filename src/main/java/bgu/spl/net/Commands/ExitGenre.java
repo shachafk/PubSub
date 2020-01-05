@@ -21,6 +21,7 @@ public class ExitGenre implements Command {
     private int id;
     private int receiptid;
     private LogManager logM = LogManager.getInstance();
+    private CommandType type = CommandType.ExitGenre;
 
 
     public ExitGenre(Message msg){
@@ -45,5 +46,9 @@ public class ExitGenre implements Command {
         receipt.addHeader("receipt-id", ""+ receiptid);
         receipt.setBody("Unsubscribed successfully from genre " + genre);
         return receipt;
+    }
+
+    public CommandType getType() {
+        return type;
     }
 }

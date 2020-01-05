@@ -1,4 +1,5 @@
 package bgu.spl.net.api;
+import bgu.spl.net.Commands.AddBook;
 import bgu.spl.net.Commands.ExitGenre;
 import bgu.spl.net.Commands.JoinGenre;
 import bgu.spl.net.impl.rci.Command;
@@ -34,9 +35,14 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 System.out.println("SUBSCRIBE");
                 break;
             }
-            case ("SEND"):
+            case ("SEND"): {
                 System.out.println("SEND");
+                if (msg.getBody().indexOf("added") > 0) { //addBookCase
+                    Command c = new AddBook(msg);
+                    c.execute(connections.getClientByMsg((Message) message));
+                }
                 break;
+            }
             case ("DISCONNECT"):
                 System.out.println("DISCONNECT");
                 break;

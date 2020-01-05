@@ -5,6 +5,7 @@ public class Client {
     private Integer ConnectionId;
     private String name;
     private Inventory inventory;
+    private int subscription;
 
     public Integer getConnectionId() {
         return ConnectionId;
@@ -24,5 +25,9 @@ public class Client {
         }
         else
             return null;
+    }
+
+    public int getSubscription() {
+        return subscription;
     }
 }

@@ -1,7 +1,9 @@
 package bgu.spl.net.Commands;
+import bgu.spl.net.api.Message;
+import bgu.spl.net.api.MessageID;
 import bgu.spl.net.impl.rci.Command;
 import bgu.spl.net.messagebroker.Client;
-
+import bgu.spl.net.srv.LogManager;
 import java.io.Serializable;
 
 /**
@@ -14,7 +16,20 @@ import java.io.Serializable;
 public class AddBook implements Command {
     private String bookName;
     private String genre;
+    private LogManager logM = LogManager.getInstance();
+    private CommandType type = CommandType.AddBook;
 
+    public AddBook(Message msg) {
+        if (!msg.getCommand().equals("SEND") | msg.getHeader().size() < 1) {
+            logM.log.severe("AddBook msg is not valid");
+            return;
+        } else {
+            this.genre = msg.getHeader().get(0).getSecond();
+            String body = msg.getBody();
+            this.bookName = body.substring(body.indexOf("book")+4);
+
+        }
+    }
 
 
     @Override
@@ -22,6 +37,16 @@ public class AddBook implements Command {
         Client client = (Client) arg;
         client.getInventory().addBook(genre,bookName);
 
-        return null;
+        Message toReturn = new Message();
+        toReturn.setCommand("MESSAGE");
+        toReturn.addHeader("subscription", ""+client.getSubscription());
+        toReturn.addHeader("Message-id", ""+ MessageID.getMessageId());
+        toReturn.addHeader("destination",genre);
+        toReturn.setBody(client.getName()+ " has added the book "+ bookName);
+        return toReturn;
+    }
+
+    public CommandType getType() {
+        return type;
     }
 }

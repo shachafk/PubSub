@@ -1,5 +1,6 @@
 package bgu.spl.net.impl.newsfeed;
 
+import bgu.spl.net.Commands.CommandType;
 import bgu.spl.net.impl.rci.Command;
 import java.io.Serializable;
 
@@ -18,5 +19,10 @@ public class PublishNewsCommand implements Command<NewsFeed> {
         feed.publish(channel, news);
         return "OK";
     }
- 
+
+    @Override
+    public CommandType getType() {
+        return null;
+    }
+
 }

@@ -23,6 +23,8 @@ public class JoinGenre implements Command {
     private int id;
     private int receiptid;
     private LogManager logM = LogManager.getInstance();
+    private CommandType type = CommandType.JoinGenre;
+
 
     public JoinGenre(Message msg ) {
         if (!msg.getCommand().equals("SUBSCRIBE") | msg.getHeader().size() < 3) {
@@ -46,5 +48,10 @@ public class JoinGenre implements Command {
         receipt.addHeader("receipt-id", ""+ receiptid);
         receipt.setBody("Subscribed successfully from genre " + genre);
         return receipt;
+    }
+
+    @Override
+    public CommandType getType() {
+        return type;
     }
 }
