@@ -5,6 +5,7 @@ public class Client {
     private Integer connectionId;
     private boolean isDefault;
     private String name;
+    private String password;
     private Inventory inventory;
     private int subscription;
     private String password;
@@ -50,5 +51,9 @@ public class Client {
 
     public int getSubscription() {
         return subscription;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
