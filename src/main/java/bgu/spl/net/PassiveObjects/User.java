@@ -99,7 +99,7 @@ public class User {
             }
         }
         if (firstBook) {
-            toReturn = "Book status";
+            toReturn = "";
         }
         return toReturn;
     }

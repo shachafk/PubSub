@@ -48,12 +48,16 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 }
                 else if (msg.getBody().indexOf("book status") > 0) { //GenreBookStatusCase
                     String genre = msg.getHeader().get(0).getSecond();
-                    for (Object tmp : connections.getUsersByTopic(genre)) { //iterate over all users subscribed to genre
-                        User tmpUser = (User) tmp;
-                        Command c = new GenreBookStatus(msg);
-                        Message toSend = (Message) c.execute(tmp);
-                        connections.send(genre, toSend);
-                    }
+                    Command c = new GenreBookStatus(msg);
+                    Message toSend = (Message) c.execute(user);
+                    connections.send(genre, toSend);
+                }
+
+                else if (msg.getBody().indexOf(user.getName()) > 0){ //GenreBookStatusResponseCase
+                    String genre = msg.getHeader().get(0).getSecond();
+                    Command c = new GenreBookStatusResponse(msg);
+                    Message toSend = (Message) c.execute(user);
+                    connections.send(genre, toSend);
                 }
                 break;
             }
