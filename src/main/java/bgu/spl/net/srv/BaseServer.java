@@ -17,6 +17,8 @@ public abstract class BaseServer<T> implements Server<T> {
     private ServerSocket sock;
     private int connectionIDCounter =1;
     private ConnectionsImpl connections;
+    private LogManager logM = LogManager.getInstance();
+
 
     public BaseServer(
             int port,
@@ -42,12 +44,14 @@ public abstract class BaseServer<T> implements Server<T> {
                 Socket clientSock = serverSock.accept();
 
                 User defaultUser = new User(connectionIDCounter);
+                logM.log.info("New default user created, connectionid: "+ connectionIDCounter);
                 BlockingConnectionHandler<T> handler = new BlockingConnectionHandler<>(
                         clientSock,
                         encdecFactory.get(),
                         protocolFactory.get(),ConnectionsImpl.getInstance(),connectionIDCounter,
                         defaultUser);
-                this.connections.addActiveUser(connectionIDCounter,handler);
+                logM.log.info("New connection handler created, connectionid: "+ connectionIDCounter);
+                this.connections.addActiveClient(connectionIDCounter,handler);
                 this.connectionIDCounter++;
 
                 execute(handler);

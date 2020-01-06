@@ -38,8 +38,10 @@ public class JoinGenre implements Command {
     @Override
     public Serializable execute(Object arg) {
         User user = (User) arg;
+        logM.log.info("New sub");
         ConnectionsImpl conn = ConnectionsImpl.getInstance();
         conn.subscribe(genre, user);
+        user.addSubscriptionIdPerTopic(genre,id);
         System.out.println("Joined club "+ genre);
         Message receipt = new Message();
         receipt.setCommand("RECEIPT");

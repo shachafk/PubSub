@@ -51,6 +51,19 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                     Message toSend = (Message)  c.execute(user);
                     connections.send(msg.getHeader().get(0).getSecond(),toSend);
                 }
+                else if (msg.getBody().indexOf("book status") > 0) { //GenreBookStatusCase
+                    String genre = msg.getHeader().get(0).getSecond();
+                    Command c = new GenreBookStatus(msg);
+                    Message toSend = (Message) c.execute(user);
+                    connections.send(genre, toSend);
+                }
+
+                else if (msg.getBody().indexOf(user.getName()) > 0){ //GenreBookStatusResponseCase
+                    String genre = msg.getHeader().get(0).getSecond();
+                    Command c = new GenreBookStatusResponse(msg);
+                    Message toSend = (Message) c.execute(user);
+                    connections.send(genre, toSend);
+                }
                 break;
             }
             case ("DISCONNECT"):{

@@ -7,8 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Inventory {
-    private HashMap<String,List<String> > books; //genre , list of books names
-    private HashMap<String,List<String> > borrowedBooks; //genre , list of books names
+
+    private HashMap<String,List<Book>> books; //genre , list of books names
+    private HashMap<String,List<Book>> borrowedBooks; //genre , list of books names
     private LogManager logM = LogManager.getInstance();
 
 
@@ -17,37 +18,57 @@ public class Inventory {
         borrowedBooks = new HashMap<>();
     }
 
-    public void addBook(String genre,String bookName){
+
+    public void addBook(String genre,Book book){
         if (books.get(genre) != null) {
-            if (books.get(genre).contains(bookName)) {
-                logM.log.warning("Book: " + bookName + " already in the inventory");
+            if (books.get(genre).contains(book)) {
+                logM.log.warning("Book: " + book.getName() + " already in the inventory");
             } else {
-                books.get(genre).add(bookName);
-                logM.log.info("Book: " + bookName + " added to inventory");
+                books.get(genre).add(book);
+                logM.log.info("Book: " + book.getName() + " added to inventory");
             }
         }
         else {
-            books.put(genre,new LinkedList<String>());
-            books.get(genre).add(bookName);
-            logM.log.info("Book: " + bookName + " added to inventory");
+            books.put(genre,new LinkedList<Book>());
+            books.get(genre).add(book);
+            logM.log.info("Book: " + book.getName() + " added to inventory");
+
         }
 
 
     }
 
-    public void returnBook(String genre,String bookName){
-        if (borrowedBooks.get(genre) != null) {
-            if (!borrowedBooks.get(genre).contains(bookName)) {
-                logM.log.warning("Book: " + bookName + " not in borrowed inventory");
-            } else {
-                if (books.get(genre) == null){ // genre not in books
-                    books.put(genre,new LinkedList<String>()); // add the genre
-                }
-                books.get(genre).add(bookName); // add to books
-                borrowedBooks.get(genre).remove(bookName); // remove from borrowed
-                logM.log.info("Book: " + bookName + " added to inventory");
+
+    public User returnBook(String genre,String bookname){
+        Boolean returned = false;
+        for (Book book : borrowedBooks.get(genre)){ // iterate over all books in borrowed for this genre
+            if (book.getName().equals(bookname)){
+                borrowedBooks.get(genre).remove(book);
+                book.resetLoaner();
+                returned = true;
+                logM.log.info("Book " + book.getName() + " removed from "+ book.getLoaner().getName() + " borrowed inventory");
+                User owner = book.getOwner();
+                owner.getInventory().returnBorrowedBookToOwner(genre,book);
+                return owner;
             }
+        }
+        if (!returned){
+            logM.log.severe("Book " + bookname + " was not returned");
+        }
+        return null;
     }
 
+    public void returnBorrowedBookToOwner(String genre,Book book){
+        this.books.get(genre).add(book);
+        logM.log.info("Book "+ book.getName() + "returned to " + book.getOwner().getName());
 
-}}
+    }
+
+    public HashMap<String, List<Book>> getBooks() {
+        return books;
+    }
+
+    public HashMap<String, List<Book>> getBorrowedBooks() {
+        return borrowedBooks;
+    }
+}
