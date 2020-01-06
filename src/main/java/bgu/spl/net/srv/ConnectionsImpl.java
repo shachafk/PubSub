@@ -9,7 +9,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ConnectionsImpl implements Connections {
+
     private HashMap<Integer,ConnectionHandler> activeClients = new HashMap<>(); // ConnectionID, ConnectionHandler
+
     private LogManager logM = LogManager.getInstance();
     private ConcurrentHashMap<String, ConcurrentLinkedQueue<User>> topics; // will hold all topics in the broker
     private ConcurrentHashMap<String, User> registered; //will hold all registered clients
@@ -40,6 +42,7 @@ public class ConnectionsImpl implements Connections {
 
         return status;
     }
+
 
     public void addActiveClient(int connectionID, ConnectionHandler handler){
         this.activeClients.put(connectionID,handler);
@@ -103,5 +106,13 @@ public class ConnectionsImpl implements Connections {
     public void addMsgPerclient(Message msg, User user){
         this.msgClientMap.put(msg, user);
     }
-
+    public void addToLoggedIn(String name, User user){
+        loggedIn.put(name,user);
+    }
+    public ConcurrentHashMap<String, ConcurrentLinkedQueue<User>> getTopics() {
+        return topics;
+    }
+    public HashMap<Integer, ConnectionHandler> getActiveClients() {
+        return activeClients;
+    }
 }
