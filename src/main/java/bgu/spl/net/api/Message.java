@@ -1,5 +1,8 @@
 package bgu.spl.net.api;
+import bgu.spl.net.Commands.CommandType;
 import bgu.spl.net.srv.Pair;
+
+import java.awt.*;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,7 +14,7 @@ public class Message implements Serializable {
     private boolean emptyLine = false;
     private boolean endOfMsg = false;
     private int index = 0;
-
+    private MessageType type;
 
     public Message() {
         header = new LinkedList<Pair<String,String>>();
@@ -21,6 +24,17 @@ public class Message implements Serializable {
         if (index==0){
             command =s;
             index++;
+            // update the MessageType //
+            if (command.equals("CONNECT"))
+                this.type = MessageType.CONNECT;
+            else if (command.equals("DISCONNECT"))
+                this.type = MessageType.DISCONNECT;
+            else if (command.equals("SEND"))
+                this.type = MessageType.SEND;
+            else if (command.equals("SUBSCRIBE"))
+                this.type = MessageType.SUBSCRIBE;
+            else if (command.equals("UNSUBSCRIBE"))
+                this.type = MessageType.UNSUBSCRIBE;
         }
         if (s.equals("\u0000")){
             endOfMsg=true;
@@ -89,5 +103,9 @@ public class Message implements Serializable {
         msg.addHeader("version", "1.2");
         msg.setBody("logged in successfully ");
         System.out.println(msg.toString());
+    }
+
+    public MessageType getType() {
+        return type;
     }
 }

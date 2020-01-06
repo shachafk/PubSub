@@ -1,2 +1,6 @@
-Jan 05, 2020 5:35:07 PM bgu.spl.net.srv.LogManager <init>
+Jan 06, 2020 1:18:16 PM bgu.spl.net.srv.LogManager <init>
 INFO: log start
+Jan 06, 2020 1:18:20 PM bgu.spl.net.srv.BaseServer serve
+INFO: New default user created, connectionid: 1
+Jan 06, 2020 1:18:20 PM bgu.spl.net.srv.BaseServer serve
+INFO: New connection handler created, connectionid: 1
