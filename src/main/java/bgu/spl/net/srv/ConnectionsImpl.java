@@ -13,10 +13,10 @@ public class ConnectionsImpl implements Connections {
     private HashMap<Integer,ConnectionHandler> activeClients = new HashMap<>(); // ConnectionID, ConnectionHandler
 
     private LogManager logM = LogManager.getInstance();
-    private ConcurrentHashMap<String, ConcurrentLinkedQueue<User>> topics; // will hold all topics in the broker
-    private ConcurrentHashMap<String, User> registered; //will hold all registered clients
-    private ConcurrentHashMap<String, User> loggedIn; //will hold all loggedin clients
-    private ConcurrentHashMap<Message, User> msgClientMap;
+    private ConcurrentHashMap<String, ConcurrentLinkedQueue<User>> topics= new ConcurrentHashMap<>();// will hold all topics in the broker
+    private ConcurrentHashMap<String, User> registered=new ConcurrentHashMap<>(); //will hold all registered clients
+    private ConcurrentHashMap<String, User> loggedIn=new ConcurrentHashMap<>(); //will hold all loggedin clients
+    private ConcurrentHashMap<Message, User> msgClientMap=new ConcurrentHashMap<>();
     private static class singletonHolder{ private static ConnectionsImpl ConnectionInstance = new ConnectionsImpl();}
     public static ConnectionsImpl getInstance() {
         return ConnectionsImpl.singletonHolder.ConnectionInstance;

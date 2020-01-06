@@ -1,6 +1,8 @@
-Jan 06, 2020 1:18:16 PM bgu.spl.net.srv.LogManager <init>
+Jan 06, 2020 9:41:37 PM bgu.spl.net.srv.LogManager <init>
 INFO: log start
-Jan 06, 2020 1:18:20 PM bgu.spl.net.srv.BaseServer serve
+Jan 06, 2020 9:41:43 PM bgu.spl.net.srv.BaseServer serve
 INFO: New default user created, connectionid: 1
-Jan 06, 2020 1:18:20 PM bgu.spl.net.srv.BaseServer serve
+Jan 06, 2020 9:41:43 PM bgu.spl.net.srv.BaseServer serve
 INFO: New connection handler created, connectionid: 1
+Jan 06, 2020 9:43:20 PM bgu.spl.net.PassiveObjects.Inventory addBook
+INFO: Book:  ok added to inventory

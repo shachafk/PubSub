@@ -16,6 +16,9 @@ public class LineMessageEncoderDecoder<T> implements MessageEncoderDecoder<T>{
         if (nextByte == '\n') {
             return (T) popString();
         }
+        if (nextByte == '\u0000'){
+            return (T) "Finito";
+        }
 
         pushByte(nextByte);
         return null; //not a line yet
