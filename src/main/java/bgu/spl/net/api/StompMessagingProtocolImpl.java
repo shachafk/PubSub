@@ -23,8 +23,8 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
     public void process(Serializable message) {
         User user = connections.getClientByMsg((Message) message);
         Message msg = (Message) message;
-        switch (msg.getCommand()){
-            case ("CONNECT"): {
+        switch (msg.getType()){
+            case CONNECT: {
                 Command a = new Login(msg);
                 Message toSend = (Message) a.execute(user);
                 connections.send(user.getConnectionId(),toSend);
@@ -32,14 +32,14 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
             }
 
                 break;
-            case ("SUBSCRIBE"): {
+            case SUBSCRIBE: {
                 Command c = new JoinGenre(msg);
                 Message toSend = (Message) c.execute(user);
                 connections.send(user.getConnectionId(),toSend);
                 System.out.println("SUBSCRIBE");
                 break;
             }
-            case ("SEND"): {
+            case SEND: {
                 System.out.println("SEND");
                 if (msg.getBody().indexOf("added") > 0) { //addBookCase
                     Command c = new AddBook(msg);
@@ -66,14 +66,14 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 }
                 break;
             }
-            case ("DISCONNECT"):{
+            case DISCONNECT:{
                 Command c = new Logout(msg);
                 Message toSend = (Message) c.execute(user);
                 connections.send(user.getConnectionId(),toSend);
                 System.out.println("DISCONNECT");
             }
                 break;
-            case ("UNSUBSCRIBE"): {
+            case UNSUBSCRIBE: {
                 Command c = new ExitGenre(msg);
                 Message toSend = (Message)  c.execute(user);
                 connections.send(user.getConnectionId(),toSend);
