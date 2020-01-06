@@ -1,11 +1,13 @@
 package bgu.spl.net.PassiveObjects;
 
+
 import bgu.spl.net.srv.LogManager;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 
 public class User {
 
@@ -29,8 +31,9 @@ public class User {
         this.name = name;
         this.password = password;
         this.isDefault = false;
-        this.inventory = new Inventory();
+
     }
+
 
     public void setNameAndPass(String name, String Pass) {
         this.name = name;
@@ -49,6 +52,8 @@ public class User {
     public Inventory getInventory() {
         return inventory;
     }
+
+
 
     public User getClient(Integer connectionId) {
         if (this.connectionId == connectionId) {
@@ -73,10 +78,16 @@ public class User {
         }
         logM.log.info("User: " + name + " subscriptionid added. topic: " + genre + " id: " + id);
         this.subscriptions.put(genre, id);
+
     }
 
     public String getPassword() {
         return password;
+    }
+
+
+    public boolean isDefault() {
+        return isDefault;
     }
 
     public String getInventoryStatus() {
@@ -102,5 +113,6 @@ public class User {
             toReturn = "";
         }
         return toReturn;
+
     }
 }

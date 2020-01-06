@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Inventory {
+
     private HashMap<String,List<Book>> books; //genre , list of books names
     private HashMap<String,List<Book>> borrowedBooks; //genre , list of books names
     private LogManager logM = LogManager.getInstance();
@@ -16,6 +17,7 @@ public class Inventory {
         books = new HashMap<>();
         borrowedBooks = new HashMap<>();
     }
+
 
     public void addBook(String genre,Book book){
         if (books.get(genre) != null) {
@@ -30,10 +32,12 @@ public class Inventory {
             books.put(genre,new LinkedList<Book>());
             books.get(genre).add(book);
             logM.log.info("Book: " + book.getName() + " added to inventory");
+
         }
 
 
     }
+
 
     public User returnBook(String genre,String bookname){
         Boolean returned = false;
