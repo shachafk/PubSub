@@ -1,8 +1,9 @@
 package bgu.spl.net.Commands;
+import bgu.spl.net.PassiveObjects.Book;
 import bgu.spl.net.api.Message;
 import bgu.spl.net.api.MessageID;
 import bgu.spl.net.impl.rci.Command;
-import bgu.spl.net.messagebroker.User;
+import bgu.spl.net.PassiveObjects.User;
 import bgu.spl.net.srv.LogManager;
 import java.io.Serializable;
 
@@ -34,11 +35,12 @@ public class AddBook implements Command {
     @Override
     public Serializable execute(Object arg) {
         User user = (User) arg;
-        user.getInventory().addBook(genre,bookName);
+        Book toAdd = new Book(bookName,user);
+        user.getInventory().addBook(genre,toAdd);
 
         Message toReturn = new Message();
         toReturn.setCommand("MESSAGE");
-        toReturn.addHeader("subscription", ""+ user.getSubscription());
+        toReturn.addHeader("subscription", ""+ user.getSubscriptionIdPerTopic(genre));
         toReturn.addHeader("Message-id", ""+ MessageID.getMessageId());
         toReturn.addHeader("destination",genre);
         toReturn.setBody(user.getName()+ " has added the book "+ bookName);

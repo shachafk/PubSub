@@ -3,8 +3,9 @@ package bgu.spl.net.Commands;
 import bgu.spl.net.api.Message;
 
 import bgu.spl.net.impl.rci.Command;
-import bgu.spl.net.messagebroker.User;
+import bgu.spl.net.PassiveObjects.User;
 import bgu.spl.net.srv.ConnectionHandler;
+
 import bgu.spl.net.srv.ConnectionsImpl;
 import bgu.spl.net.srv.LogManager;
 import java.io.Serializable;
