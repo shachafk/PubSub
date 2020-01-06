@@ -1,4 +1,6 @@
 package bgu.spl.net.Commands;
+import bgu.spl.net.PassiveObjects.User;
+import bgu.spl.net.api.Message;
 import bgu.spl.net.impl.rci.Command;
 import bgu.spl.net.srv.LogManager;
 import java.io.Serializable;
@@ -25,12 +27,34 @@ public class BorrowBook implements Command {
     private CommandType type = CommandType.BorrowBook;
 
 
+    public BorrowBook(Message msg) {
+        if (!msg.getCommand().equals("SEND") | msg.getHeader().size() < 1) {
+            logM.log.severe("BorrowBook msg is not valid");
+            return;
+        } else {
+            this.genre = msg.getHeader().get(0).getSecond();
+            String body = msg.getBody();
+            this.bookName = body.substring(body.indexOf("borrow") + 5);
+        }
+    }
+
+
 
     @Override
     public Serializable execute(Object arg) {
-        return null;
+        if (arg instanceof User) {
+            User user = (User) arg;
+            Message toReturn = new Message();
+            toReturn.setCommand("MESSAGE");
+            toReturn.addHeader("destination",""+genre);
+            toReturn.setBody("" + user.getName()+" wish to borrow "+bookName);
+            return toReturn;
+        }
+        else{
+            logM.log.severe("arg isnt instance of User");
+            return null;
+        }
     }
-
     public CommandType getType() {
         return type;
     }

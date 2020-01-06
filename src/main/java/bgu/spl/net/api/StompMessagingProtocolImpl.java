@@ -58,9 +58,27 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                     connections.send(genre, toSend);
                 }
 
-                else if (msg.getBody().indexOf(user.getName()) > 0){ //GenreBookStatusResponseCase
+                else if (msg.getBody().indexOf(user.getName()+":") > 0){ //GenreBookStatusResponseCase
                     String genre = msg.getHeader().get(0).getSecond();
                     Command c = new GenreBookStatusResponse(msg);
+                    Message toSend = (Message) c.execute(user);
+                    connections.send(genre, toSend);
+                }
+                else if (msg.getBody().indexOf("wish") > 0){ //BorrowBookCase
+                    String genre = msg.getHeader().get(0).getSecond();
+                    Command c = new BorrowBook(msg);
+                    Message toSend = (Message) c.execute(user);
+                    connections.send(genre, toSend);
+                }
+                else if (msg.getBody().indexOf("has") > 0){ //BorrowBookResponseCase
+                    String genre = msg.getHeader().get(0).getSecond();
+                    Command c = new BorrowBookResponse(msg);
+                    Message toSend = (Message) c.execute(user);
+                    connections.send(genre, toSend);
+                }
+                else if (msg.getBody().indexOf("Taking") > 0){ //LoaningBookCase
+                    String genre = msg.getHeader().get(0).getSecond();
+                    Command c = new LoaningBook(msg);
                     Message toSend = (Message) c.execute(user);
                     connections.send(genre, toSend);
                 }
@@ -70,6 +88,7 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 Command c = new Logout(msg);
                 Message toSend = (Message) c.execute(user);
                 connections.send(user.getConnectionId(),toSend);
+                connections.disconnect(user.getConnectionId());
                 System.out.println("DISCONNECT");
             }
                 break;

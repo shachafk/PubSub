@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Logout implements Command {
     private LogManager logM = LogManager.getInstance();
-    private CommandType type = CommandType.Login;
+    private CommandType type = CommandType.Logout;
     private ConnectionsImpl connections = ConnectionsImpl.getInstance();
     private int receiptid;
 
