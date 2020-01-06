@@ -1,7 +1,7 @@
 package bgu.spl.net.api;
 import bgu.spl.net.Commands.*;
 import bgu.spl.net.impl.rci.Command;
-import bgu.spl.net.messagebroker.User;
+import bgu.spl.net.PassiveObjects.User;
 import bgu.spl.net.srv.Connections;
 import java.io.Serializable;
 

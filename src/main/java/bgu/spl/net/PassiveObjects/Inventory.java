@@ -1,4 +1,4 @@
-package bgu.spl.net.messagebroker;
+package bgu.spl.net.PassiveObjects;
 
 import bgu.spl.net.srv.LogManager;
 

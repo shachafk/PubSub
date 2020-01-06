@@ -1,7 +1,7 @@
 package bgu.spl.net.srv;
 
 import bgu.spl.net.api.Message;
-import bgu.spl.net.messagebroker.User;
+import bgu.spl.net.PassiveObjects.User;
 
 public interface Connections<T> {
 

@@ -2,7 +2,7 @@ package bgu.spl.net.srv;
 
 import bgu.spl.net.api.MessageEncoderDecoder;
 import bgu.spl.net.api.StompMessagingProtocol;
-import bgu.spl.net.messagebroker.User;
+import bgu.spl.net.PassiveObjects.User;
 
 import java.io.IOException;
 import java.net.ServerSocket;
