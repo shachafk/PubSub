@@ -120,4 +120,9 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
     public void send(T msg) {
         //IMPLEMENT IF NEEDED
     }
+
+    @Override
+    public boolean statusOk() {
+        return false;
+    }
 }
