@@ -19,7 +19,7 @@ public class GenreBookStatusResponse implements Command {
             logM.log.severe("AddBook msg is not valid");
             return;
         } else {
-            this.genre = msg.getHeader().get(0).getSecond();
+            this.genre = msg.getGenre();
             this.body = msg.getBody();
 
         }

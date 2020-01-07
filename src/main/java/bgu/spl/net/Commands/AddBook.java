@@ -25,7 +25,7 @@ public class AddBook implements Command {
             logM.log.severe("AddBook msg is not valid");
             return;
         } else {
-            this.genre = msg.getHeader().get(0).getSecond();
+            this.genre = msg.getGenre();
             String body = msg.getBody();
             this.bookName = body.substring(body.indexOf("book")+4);
 

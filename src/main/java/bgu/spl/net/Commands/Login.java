@@ -22,9 +22,9 @@ public class Login implements Command {
 
     public Login(Message msg) {
         this.msg = msg;
-        username=msg.getHeader().get(2).getSecond();
-        password=msg.getHeader().get(3).getSecond();
-        version=msg.getHeader().get(0).getSecond();
+        username=msg.getUserName();
+        password=msg.getPassword();
+        version=msg.getVersion();
     }
 
 
@@ -78,8 +78,9 @@ public class Login implements Command {
             }
             else {//creates new user, send receipt
                 if (user.isDefault()) {
-                    User curr=new User(connectionId,username,password);
-                    connections.getRegistered().put(username,curr);
+                    user.setNameAndPass(username,password);
+                    //User curr=new User(connectionId,username,password);
+                    connections.getRegistered().put(username,user);
                     connections.getLoggedIn().put(user.getName(), user);
                     return successfulMsg(user);
                 }
@@ -105,7 +106,7 @@ public class Login implements Command {
         success.setCommand("CONNECTED");
         success.addHeader("version", ""+version);
         success.setBody("Login successful");
-        logM.log.info("user" + user.getName() + "created and added to Registered");
+        logM.log.info("user " + user.getName() + " created and added to Registered");
         return success;
     }
 

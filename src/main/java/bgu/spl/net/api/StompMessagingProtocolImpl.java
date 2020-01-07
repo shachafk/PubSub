@@ -18,7 +18,8 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
 
     public void start(int connectionId, Connections<String> connections) {
         this.connectionid = connectionId;
-        this.connections =(ConnectionsImpl) connections;
+        this.connections = (ConnectionsImpl) connections;
+
     }
 
     @Override

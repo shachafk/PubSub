@@ -5,8 +5,10 @@ import bgu.spl.net.impl.rci.Command;
 import bgu.spl.net.PassiveObjects.User;
 import bgu.spl.net.srv.ConnectionsImpl;
 import bgu.spl.net.srv.LogManager;
+import bgu.spl.net.srv.Pair;
 
 import java.io.Serializable;
+import java.util.Iterator;
 
 /**
  Exit Genre Reading Club Command
@@ -24,23 +26,25 @@ public class ExitGenre implements Command {
     private CommandType type = CommandType.ExitGenre;
 
 
-    public ExitGenre(Message msg){
-        if (!msg.getCommand().equals("SUBSCRIBE") | msg.getHeader().size() < 3) {
+    public ExitGenre(Message msg) {
+        if (!msg.getCommand().equals("UNSUBSCRIBE") | msg.getHeader().size() < 1) {
             logM.log.severe("ExitGenre msg is not valid");
             return;
         } else {
-            this.genre = msg.getHeader().get(0).getSecond();
-            this.id = Integer.valueOf(msg.getHeader().get(1).getSecond());
-            this.receiptid = Integer.valueOf(msg.getHeader().get(2).getSecond());
-        }
+                this.genre = msg.getGenre();
+                this.id = msg.getSubId();
+                this.receiptid = msg.getReceiptId();
+            }
+
     }
+
 
 
     public Serializable execute(Object arg) {
         User user = (User) arg;
         ConnectionsImpl conn = ConnectionsImpl.getInstance();
         conn.unsubscribe(genre, user);
-        System.out.println("Exited club "+ genre);
+        //System.out.println("Exited club "+ genre);
         Message receipt = new Message();
         receipt.setCommand("RECEIPT");
         receipt.addHeader("receipt-id", ""+ receiptid);
