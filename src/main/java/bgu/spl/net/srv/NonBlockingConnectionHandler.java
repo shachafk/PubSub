@@ -121,8 +121,7 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
         //IMPLEMENT IF NEEDED
     }
 
-    @Override
-    public boolean statusOk() {
-        return false;
-    }
+//    public boolean statusOk() {
+//        return false;
+//    }
 }

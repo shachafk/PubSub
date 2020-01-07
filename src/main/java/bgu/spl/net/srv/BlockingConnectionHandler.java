@@ -81,5 +81,5 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
     public void setActiveUser(User activeUser) {
         this.activeUser = activeUser;
     }
-    public boolean statusOk(){ return sock.isConnected();}
+   // public boolean statusOk(){ return sock.isConnected();}
 }

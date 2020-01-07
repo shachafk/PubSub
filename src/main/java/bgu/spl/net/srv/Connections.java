@@ -14,7 +14,7 @@ public interface Connections<T> {
     void send(String channel, T msg);
 
     void disconnect(int connectionId);
-     User getClientByMsg(Message m);
-    public ConcurrentLinkedQueue getUsersByTopic(String genre);
+    // User getClientByMsg(Message m);
+    //public ConcurrentLinkedQueue getUsersByTopic(String genre);
 
     }
