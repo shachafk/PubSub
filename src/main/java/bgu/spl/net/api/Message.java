@@ -35,8 +35,9 @@ public class Message implements Serializable {
                 this.type = MessageType.SUBSCRIBE;
             else if (command.equals("UNSUBSCRIBE"))
                 this.type = MessageType.UNSUBSCRIBE;
+        return;
         }
-        if (s.equals("\u0000")){
+        if (s.equals("Finito")){
             endOfMsg=true;
         }
         else if (s.length()==0){
@@ -46,16 +47,20 @@ public class Message implements Serializable {
 
         else if (emptyLine ==true){
             body = body +s;
+            emptyLine=false;
         }
 
         else { // header
             int i = s.indexOf(":");
             String headerName = s.substring(0,i);
-            String headerValue = s.substring(i);
+            String headerValue = s.substring(i+1);
             Pair tmp = new Pair(headerName,headerValue);
             header.add(tmp);
         }
 
+    }
+    public boolean isEndOfMsg(){
+        return endOfMsg;
     }
 
     public List<Pair<String, String>> getHeader() {

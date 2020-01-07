@@ -19,15 +19,14 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
     private BufferedOutputStream out;
     private volatile boolean connected = true;
     private LogManager logM = LogManager.getInstance();
-    private ConnectionsImpl connections;
+    private ConnectionsImpl connections=ConnectionsImpl.getInstance();
     private int connectionID;
     private User activeUser;
 
-    public BlockingConnectionHandler(Socket sock, MessageEncoderDecoder<T> reader, StompMessagingProtocol<T> protocol,ConnectionsImpl connections, int connectionID, User activeUser) {
+    public BlockingConnectionHandler(Socket sock, MessageEncoderDecoder<T> reader, StompMessagingProtocol<T> protocol,int connectionID, User activeUser) {
         this.sock = sock;
         this.encdec = reader;
         this.protocol = protocol;
-        this.connections = connections;
         this.connectionID = connectionID;
         this.activeUser = activeUser;
     }
@@ -41,13 +40,22 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
             out = new BufferedOutputStream(sock.getOutputStream());
             Message nextMessage = new Message();
             while (!protocol.shouldTerminate() && connected && (read = in.read()) >= 0) {
-                nextMessage.addNextInput((String) encdec.decodeNextByte((byte) read));
+                String toAdd= (String)encdec.decodeNextByte((byte) read);
+                if (toAdd!=null) {
+                    nextMessage.addNextInput(toAdd);
+                }
+                if (nextMessage.isEndOfMsg()){
+                    Message readyMsg = nextMessage;
+                    System.out.println(readyMsg.toString());
+                        this.connections.addMsgPerclient(readyMsg, activeUser);
+                        protocol.process((T) readyMsg); //should send the response
+
+                //    nextMessage.clear();
+                }
             }
 
-            if (nextMessage.getHeader().size()>0) {
-                this.connections.addMsgPerclient(nextMessage,activeUser);
-                protocol.process((T) nextMessage); //should send the response
-            }
+
+
 
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -73,5 +81,5 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
     public void setActiveUser(User activeUser) {
         this.activeUser = activeUser;
     }
-    public boolean statusOk(){ return sock.isConnected();}
+   // public boolean statusOk(){ return sock.isConnected();}
 }

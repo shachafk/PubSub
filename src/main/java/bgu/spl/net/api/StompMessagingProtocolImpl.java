@@ -3,12 +3,14 @@ import bgu.spl.net.Commands.*;
 import bgu.spl.net.impl.rci.Command;
 import bgu.spl.net.PassiveObjects.User;
 import bgu.spl.net.srv.Connections;
+import bgu.spl.net.srv.ConnectionsImpl;
+
 import java.io.Serializable;
 
 public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Serializable> {
     private User user;
     private int connectionid;
-    private Connections connections;
+    private ConnectionsImpl connections;
     private boolean terminate;
 
     public StompMessagingProtocolImpl( ){
@@ -16,7 +18,7 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
 
     public void start(int connectionId, Connections<String> connections) {
         this.connectionid = connectionId;
-        this.connections = connections;
+        this.connections =(ConnectionsImpl) connections;
     }
 
     @Override
