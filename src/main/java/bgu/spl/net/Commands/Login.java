@@ -78,8 +78,9 @@ public class Login implements Command {
             }
             else {//creates new user, send receipt
                 if (user.isDefault()) {
-                    User curr=new User(connectionId,username,password);
-                    connections.getRegistered().put(username,curr);
+                    user.setNameAndPass(username,password);
+                    //User curr=new User(connectionId,username,password);
+                    connections.getRegistered().put(username,user);
                     connections.getLoggedIn().put(user.getName(), user);
                     return successfulMsg(user);
                 }
@@ -105,7 +106,7 @@ public class Login implements Command {
         success.setCommand("CONNECTED");
         success.addHeader("version", ""+version);
         success.setBody("Login successful");
-        logM.log.info("user" + user.getName() + "created and added to Registered");
+        logM.log.info("user " + user.getName() + " created and added to Registered");
         return success;
     }
 

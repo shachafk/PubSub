@@ -22,6 +22,8 @@ public class ConnectionsImpl implements Connections {
         return ConnectionsImpl.singletonHolder.ConnectionInstance;
     }
 
+
+
     /** Sends a message T to client represented by the given connectionId.
      */
 

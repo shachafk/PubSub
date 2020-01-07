@@ -36,9 +36,9 @@ public class User {
     }
 
 
-    public void setNameAndPass(String name, String Pass) {
+    public void setNameAndPass(String name, String pass) {
         this.name = name;
-        this.password = password;
+        this.password = pass;
         this.isDefault = false;
     }
 
