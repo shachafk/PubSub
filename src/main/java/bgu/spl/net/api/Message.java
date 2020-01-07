@@ -4,6 +4,7 @@ import bgu.spl.net.srv.Pair;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +16,14 @@ public class Message implements Serializable {
     private boolean endOfMsg = false;
     private int index = 0;
     private MessageType type;
+    private String genre;
+    private int subId;
+    private int receiptId;
+    private String userName;
+    private String password;
+    private String host;
+    private String version;
+
 
     public Message() {
         header = new LinkedList<Pair<String,String>>();
@@ -60,7 +69,69 @@ public class Message implements Serializable {
 
     }
     public boolean isEndOfMsg(){
+        loadHeaders();
         return endOfMsg;
+    }
+    public void loadHeaders() {
+        Iterator it = header.iterator();
+        while (it.hasNext()) {
+            Pair curr = (Pair) it.next();
+            switch ((String) curr.getFirst()) {
+                case ("destination"):
+                    genre = (String) curr.getSecond();
+                    break;
+                case ("id"):
+                    subId = Integer.valueOf((String) curr.getSecond());
+                    break;
+                case ("receipt"):
+                    receiptId = Integer.valueOf((String) curr.getSecond());
+                    break;
+                case ("host"):
+                    host = (String) curr.getSecond();
+                    break;
+                case ("login"):
+                    userName = (String) curr.getSecond();
+                    break;
+                case ("passcode"):
+                    password = (String) curr.getSecond();
+                    break;
+                case ("accept-version"):
+                    version = (String) curr.getSecond();
+                    break;
+            }
+        }
+    }
+
+    public int getReceiptId() {
+        return receiptId;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public int getSubId() {
+        return subId;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getVersion() {
+        return version;
     }
 
     public List<Pair<String, String>> getHeader() {
@@ -112,5 +183,15 @@ public class Message implements Serializable {
 
     public MessageType getType() {
         return type;
+    }
+
+    public void clear() {
+        command ="";
+        header.clear();
+        body="";
+        emptyLine = false;
+        endOfMsg = false;
+        index = 0;
+        type = null;
     }
 }

@@ -22,9 +22,9 @@ public class Login implements Command {
 
     public Login(Message msg) {
         this.msg = msg;
-        username=msg.getHeader().get(2).getSecond();
-        password=msg.getHeader().get(3).getSecond();
-        version=msg.getHeader().get(0).getSecond();
+        username=msg.getUserName();
+        password=msg.getPassword();
+        version=msg.getVersion();
     }
 
 

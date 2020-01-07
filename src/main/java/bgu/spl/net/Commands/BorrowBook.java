@@ -32,7 +32,7 @@ public class BorrowBook implements Command {
             logM.log.severe("BorrowBook msg is not valid");
             return;
         } else {
-            this.genre = msg.getHeader().get(0).getSecond();
+            this.genre = msg.getGenre();
             String body = msg.getBody();
             this.bookName = body.substring(body.indexOf("borrow") + 5);
         }

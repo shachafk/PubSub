@@ -20,7 +20,7 @@ public class LoaningBook implements Command {
             logM.log.severe("AddBook msg is not valid");
             return;
         } else {
-            this.genre = msg.getHeader().get(0).getSecond();
+            this.genre = msg.getGenre();
             this.body = msg.getBody();
             this.lender=body.substring(body.indexOf("from")+5);
             this.bookName=body.substring(body.indexOf("Taking")+7);

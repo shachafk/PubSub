@@ -50,7 +50,7 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
                         this.connections.addMsgPerclient(readyMsg, activeUser);
                         protocol.process((T) readyMsg); //should send the response
 
-                //    nextMessage.clear();
+                    nextMessage.clear();
                 }
             }
 

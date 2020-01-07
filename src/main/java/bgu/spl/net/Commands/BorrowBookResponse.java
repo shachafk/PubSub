@@ -20,7 +20,7 @@ public class BorrowBookResponse implements Command {
             logM.log.severe("BorrowBookResponse msg is not valid");
             return;
         } else {
-            this.genre = msg.getHeader().get(0).getSecond();
+            this.genre = msg.getGenre();
             this.body = msg.getBody();
             this.loaner=body.substring(0,body.indexOf(" "));
             this.bookName=body.substring(body.indexOf("has")+4);

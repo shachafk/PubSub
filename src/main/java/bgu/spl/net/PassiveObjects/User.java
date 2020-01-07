@@ -24,6 +24,7 @@ public class User {
         this.connectionId = connectionId;
         this.isDefault = true;
         this.inventory = new Inventory();
+        this.subscriptions = new HashMap<>();
     }
 
     public User(int connectionId, String name, String password) {
@@ -63,7 +64,12 @@ public class User {
     }
 
     public int getSubscriptionIdPerTopic(String genre) {
-        return this.subscriptions.get(genre);
+        Integer tmp = subscriptions.get(genre);
+        if (tmp!=null){
+            return tmp;
+        }
+        else
+            return -1;
     }
 
     public void removeSubscriptionIdPerTopic(String genre) {

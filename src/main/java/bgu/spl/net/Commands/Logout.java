@@ -18,7 +18,7 @@ public class Logout implements Command {
 
 
     public Logout(Message msg){
-        this.receiptid = Integer.valueOf(msg.getHeader().get(0).getSecond());
+        this.receiptid = msg.getReceiptId();
     }
 
 

@@ -29,9 +29,9 @@ public class JoinGenre implements Command {
             logM.log.severe("JoinGenre msg is not valid");
             return;
         } else {
-            this.genre = msg.getHeader().get(0).getSecond();
-            this.id = Integer.valueOf(msg.getHeader().get(1).getSecond());
-            this.receiptid = Integer.valueOf(msg.getHeader().get(2).getSecond());
+            this.genre = msg.getGenre();
+            this.id = msg.getSubId();
+            this.receiptid = msg.getReceiptId();
         }
     }
 
@@ -42,7 +42,7 @@ public class JoinGenre implements Command {
         ConnectionsImpl conn = ConnectionsImpl.getInstance();
         conn.subscribe(genre, user);
         user.addSubscriptionIdPerTopic(genre,id);
-        System.out.println("Joined club "+ genre);
+        //System.out.println("Joined club "+ genre);
         Message receipt = new Message();
         receipt.setCommand("RECEIPT");
         receipt.addHeader("receipt-id", ""+ receiptid);
