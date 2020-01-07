@@ -35,15 +35,15 @@ public class Login implements Command {
             String line="-----"+System.lineSeparator();
             Integer connectionId = user.getConnectionId();
             ConnectionHandler handler=connections.getActiveClients().get(connectionId);
-            if (!handler.statusOk()){
-                Message error = new Message();
-                error.setCommand("ERROR");
-                error.addHeader("receipt-id", "TBD reciptID");
-                error.addHeader("message", "malformed frame received");
-                error.setBody("The message:"+System.lineSeparator()+line+msg.toString()+line+"Could not connect to server");
-                logM.log.severe("user" + user.getName() + "already logged in");
-                return error;
-            }
+//            if (!handler.statusOk()){
+//                Message error = new Message();
+//                error.setCommand("ERROR");
+//                error.addHeader("receipt-id", "TBD reciptID");
+//                error.addHeader("message", "malformed frame received");
+//                error.setBody("The message:"+System.lineSeparator()+line+msg.toString()+line+"Could not connect to server");
+//                logM.log.severe("user" + user.getName() + "already logged in");
+//                return error;
+//            }
 
             if (connections.getRegistered().containsKey(username)) { //checks weather user ever signed in
                 if (connections.getLoggedIn().contains(username)) {
