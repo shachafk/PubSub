@@ -35,8 +35,8 @@ public class AddBook implements Command {
     @Override
     public Serializable execute(Object arg) {
         User user = (User) arg;
-        Book toAdd = new Book(bookName,user);
-        user.getInventory().addBook(genre,toAdd);
+     //   Book toAdd = new Book(bookName,user);
+     //   user.getInventory().addBook(genre,toAdd);
 
         Message toReturn = new Message();
         toReturn.setCommand("MESSAGE");
