@@ -19,7 +19,6 @@ public interface ConnectionHandler<T> extends Closeable {
      */
 
     void send(T msg) throws IOException;
-  //  public boolean statusOk();
 
 
 }
