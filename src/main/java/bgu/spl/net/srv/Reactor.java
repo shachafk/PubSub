@@ -1,7 +1,10 @@
 package bgu.spl.net.srv;
 
+import bgu.spl.net.PassiveObjects.User;
 import bgu.spl.net.api.MessageEncoderDecoder;
 import bgu.spl.net.api.MessagingProtocol;
+import bgu.spl.net.api.StompMessagingProtocol;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.ClosedSelectorException;
@@ -15,10 +18,12 @@ import java.util.function.Supplier;
 public class Reactor<T> implements Server<T> {
 
     private final int port;
-    private final Supplier<MessagingProtocol<T>> protocolFactory;
+    private final Supplier<StompMessagingProtocol<T>> protocolFactory;
     private final Supplier<MessageEncoderDecoder<T>> readerFactory;
     private final ActorThreadPool pool;
     private Selector selector;
+    private int connectionIDCounter =1;
+
 
     private Thread selectorThread;
     private final ConcurrentLinkedQueue<Runnable> selectorTasks = new ConcurrentLinkedQueue<>();
@@ -26,7 +31,7 @@ public class Reactor<T> implements Server<T> {
     public Reactor(
             int numThreads,
             int port,
-            Supplier<MessagingProtocol<T>> protocolFactory,
+            Supplier<StompMessagingProtocol<T>> protocolFactory,
             Supplier<MessageEncoderDecoder<T>> readerFactory) {
 
         this.pool = new ActorThreadPool(numThreads);
@@ -94,12 +99,15 @@ public class Reactor<T> implements Server<T> {
 
     private void handleAccept(ServerSocketChannel serverChan, Selector selector) throws IOException {
         SocketChannel clientChan = serverChan.accept();
+        User defaultUser = new User(connectionIDCounter);
         clientChan.configureBlocking(false);
-        final NonBlockingConnectionHandler<T> handler = new NonBlockingConnectionHandler<>(
+        final NonBlockingConnectionHandler<T> handler = new NonBlockingConnectionHandler(
                 readerFactory.get(),
                 protocolFactory.get(),
                 clientChan,
-                this);
+                this,connectionIDCounter,defaultUser);
+        this.connectionIDCounter++;
+
         clientChan.register(selector, SelectionKey.OP_READ, handler);
     }
 

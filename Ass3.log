@@ -1,0 +1,62 @@
+Jan 08, 2020 3:03:02 PM bgu.spl.net.srv.LogManager <init>
+INFO: log start
+Jan 08, 2020 3:03:24 PM bgu.spl.net.srv.BaseServer serve
+INFO: New default user created, connectionid: 1
+Jan 08, 2020 3:03:24 PM bgu.spl.net.srv.BaseServer serve
+INFO: New connection handler created, connectionid: 1
+Jan 08, 2020 3:04:21 PM bgu.spl.net.Commands.Login successfulMsg
+INFO: user alice created and added to Registered
+Jan 08, 2020 3:04:28 PM bgu.spl.net.Commands.JoinGenre execute
+INFO: New sub
+Jan 08, 2020 3:04:28 PM bgu.spl.net.srv.ConnectionsImpl subscribe
+INFO: User: alice subscribed from genre: sci-fi
+Jan 08, 2020 3:04:28 PM bgu.spl.net.PassiveObjects.User addSubscriptionIdPerTopic
+INFO: User: alice subscriptionid added. topic: sci-fi id: 1
+Jan 08, 2020 3:04:41 PM bgu.spl.net.PassiveObjects.Inventory addBook
+INFO: Book:  foundation added to inventory
+Jan 08, 2020 3:04:52 PM bgu.spl.net.srv.ConnectionsImpl unsubscribe
+INFO: User: alice unsubscribed from genre: sci-fi
+Jan 08, 2020 3:04:59 PM bgu.spl.net.srv.ConnectionsImpl unsubscribe
+INFO: User: alice unsubscribed from genre: sci-fi
+Jan 08, 2020 3:04:59 PM bgu.spl.net.srv.ConnectionsImpl disconnect
+INFO: Disconnect - connectionId 1 removed from activeUser
+Jan 08, 2020 3:07:13 PM bgu.spl.net.srv.BaseServer serve
+INFO: New default user created, connectionid: 2
+Jan 08, 2020 3:07:13 PM bgu.spl.net.srv.BaseServer serve
+INFO: New connection handler created, connectionid: 2
+Jan 08, 2020 3:07:18 PM bgu.spl.net.PassiveObjects.Inventory addBook
+INFO: Book:  fjf added to inventory
+Jan 08, 2020 3:07:18 PM bgu.spl.net.srv.ConnectionsImpl send
+WARNING: no clients are subscribed to channel: sci
+Jan 08, 2020 3:08:22 PM bgu.spl.net.srv.BaseServer serve
+INFO: New default user created, connectionid: 3
+Jan 08, 2020 3:08:22 PM bgu.spl.net.srv.BaseServer serve
+INFO: New connection handler created, connectionid: 3
+Jan 08, 2020 3:08:52 PM bgu.spl.net.srv.BaseServer serve
+INFO: New default user created, connectionid: 4
+Jan 08, 2020 3:08:52 PM bgu.spl.net.srv.BaseServer serve
+INFO: New connection handler created, connectionid: 4
+Jan 08, 2020 3:09:05 PM bgu.spl.net.srv.BaseServer serve
+INFO: New default user created, connectionid: 5
+Jan 08, 2020 3:09:05 PM bgu.spl.net.srv.BaseServer serve
+INFO: New connection handler created, connectionid: 5
+Jan 08, 2020 3:11:30 PM bgu.spl.net.srv.BaseServer serve
+INFO: New default user created, connectionid: 6
+Jan 08, 2020 3:11:30 PM bgu.spl.net.srv.BaseServer serve
+INFO: New connection handler created, connectionid: 6
+Jan 08, 2020 3:11:42 PM bgu.spl.net.PassiveObjects.Inventory addBook
+INFO: Book:  fjf added to inventory
+Jan 08, 2020 3:11:42 PM bgu.spl.net.srv.ConnectionsImpl send
+WARNING: no clients are subscribed to channel: sci
+Jan 08, 2020 3:20:09 PM bgu.spl.net.srv.BaseServer serve
+INFO: New default user created, connectionid: 7
+Jan 08, 2020 3:20:09 PM bgu.spl.net.srv.BaseServer serve
+INFO: New connection handler created, connectionid: 7
+Jan 08, 2020 3:20:15 PM bgu.spl.net.PassiveObjects.Inventory addBook
+INFO: Book:  shd added to inventory
+Jan 08, 2020 3:20:15 PM bgu.spl.net.srv.ConnectionsImpl send
+WARNING: no clients are subscribed to channel: sci
+Jan 08, 2020 3:25:23 PM bgu.spl.net.srv.BaseServer serve
+INFO: New default user created, connectionid: 8
+Jan 08, 2020 3:25:23 PM bgu.spl.net.srv.BaseServer serve
+INFO: New connection handler created, connectionid: 8
