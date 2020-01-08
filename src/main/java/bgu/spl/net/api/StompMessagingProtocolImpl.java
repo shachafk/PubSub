@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Serializable> {
     private User user;
     private int connectionid;
-    private ConnectionsImpl connections;
+    private ConnectionsImpl connections ;
     private boolean terminate;
 
     public StompMessagingProtocolImpl( ){
