@@ -45,7 +45,8 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
                     nextMessage.addNextInput(toAdd);
                 }
                 if (nextMessage.isEndOfMsg()){
-                    Message readyMsg = nextMessage;
+
+                    Message readyMsg = new Message(nextMessage);
                     System.out.println(readyMsg.toString());
                         this.connections.addMsgPerclient(readyMsg, activeUser);
                         protocol.process((T) readyMsg); //should send the response

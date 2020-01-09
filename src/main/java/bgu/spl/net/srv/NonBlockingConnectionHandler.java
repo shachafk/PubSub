@@ -41,6 +41,8 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
         this.reactor = reactor;
         this.connectionID = connectionID;
         this.activeUser = activeUser;
+        this.protocol.start(this.connectionID,connections);
+
     }
 
     public Runnable continueRead() {

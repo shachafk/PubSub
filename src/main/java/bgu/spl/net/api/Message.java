@@ -4,6 +4,7 @@ import bgu.spl.net.srv.Pair;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,8 +26,27 @@ public class Message implements Serializable {
     private String version;
 
 
+
     public Message() {
         header = new LinkedList<Pair<String,String>>();
+    }
+
+    public Message(Message from){
+
+       this.command = from.command;
+        this.header = from.header;
+        this.body = from.body;
+        this.emptyLine = from.emptyLine;
+        this.endOfMsg = from.endOfMsg;
+        this.index = from.index;
+        this.type = from.type;
+        this.genre = from.genre;
+        this.subId = from.subId;
+        this.receiptId = from.receiptId;
+        this.userName = from.userName;
+        this.password = from.password;
+        this.host = from.host;
+        this.version = from.version;
     }
 
     public void addNextInput(String s){

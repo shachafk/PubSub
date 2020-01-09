@@ -107,6 +107,7 @@ public class ConnectionsImpl implements Connections {
     }
     public void addMsgPerclient(Message msg, User user){
         this.msgClientMap.put(msg, user);
+        System.out.println(msgClientMap.size() + " size");
     }
     public void addToLoggedIn(String name, User user){
         loggedIn.put(name,user);

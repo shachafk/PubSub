@@ -22,6 +22,7 @@ public class Reactor<T> implements Server<T> {
     private final Supplier<MessageEncoderDecoder<T>> readerFactory;
     private final ActorThreadPool pool;
     private Selector selector;
+    private ConnectionsImpl connections;
     private int connectionIDCounter =1;
 
 
@@ -38,6 +39,7 @@ public class Reactor<T> implements Server<T> {
         this.port = port;
         this.protocolFactory = protocolFactory;
         this.readerFactory = readerFactory;
+        this.connections = ConnectionsImpl.getInstance();
     }
 
     @Override
@@ -106,6 +108,7 @@ public class Reactor<T> implements Server<T> {
                 protocolFactory.get(),
                 clientChan,
                 this,connectionIDCounter,defaultUser);
+        this.connections.addActiveClient(connectionIDCounter,handler);
         this.connectionIDCounter++;
 
         clientChan.register(selector, SelectionKey.OP_READ, handler);

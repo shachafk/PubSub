@@ -45,7 +45,7 @@ public class Login implements Command {
 //                return error;
 //            }
 
-            if (connections.getRegistered().containsKey(username)) { //checks weather user ever signed in
+            if (connections.getRegistered().containsKey(username)) {//checks weather user ever signed in
                 if (connections.getLoggedIn().contains(username)) {
                     Message error = new Message();
                     error.setCommand("ERROR");
@@ -58,10 +58,12 @@ public class Login implements Command {
                 }
                 else {
                     User tmp = connections.getRegistered().get(username);
-                    String password = tmp.getPassword();
-                    if (user.getPassword().equals(password)) {
-                        connections.addToLoggedIn(username,user);
-                        return successfulMsg(user);
+                    if (tmp != null) {
+                        if (tmp.getPassword().equals(password)) {
+                            user.setNameAndPass(username,password);
+                            connections.addToLoggedIn(username, user);
+                            return successfulMsg(user);
+                        }
                     }
                     else { //wrong password
                         Message error = new Message();
