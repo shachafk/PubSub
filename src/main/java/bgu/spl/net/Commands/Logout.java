@@ -35,8 +35,9 @@ public class Logout implements Command {
                 connections.unsubscribe(s,user);
             }
             Message recepit = new Message();
-            recepit.setCommand("RECEPIT");
-            recepit.addHeader("recepit-id", "" + receiptid);
+            recepit.setCommand("RECEIPT");
+            recepit.addHeader("receipt-id", "" + receiptid);
+            recepit.setBody("");
             return recepit;
         }
         else{

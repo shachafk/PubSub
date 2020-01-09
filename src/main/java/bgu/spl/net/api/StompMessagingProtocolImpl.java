@@ -91,7 +91,7 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 Command c = new Logout(msg);
                 Message toSend = (Message) c.execute(user);
                 connections.send(user.getConnectionId(),toSend);
-                connections.disconnect(user.getConnectionId());
+                System.out.println(toSend.toString());
                 System.out.println("DISCONNECT");
             }
                 break;

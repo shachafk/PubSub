@@ -1,4 +1,22 @@
-Jan 08, 2020 10:58:11 PM bgu.spl.net.srv.LogManager <init>
+Jan 09, 2020 5:39:28 PM bgu.spl.net.srv.LogManager <init>
 INFO: log start
-Jan 08, 2020 10:58:24 PM bgu.spl.net.Commands.Login successfulMsg
+Jan 09, 2020 5:39:35 PM bgu.spl.net.srv.BaseServer serve
+INFO: New default user created, connectionid: 1
+Jan 09, 2020 5:39:35 PM bgu.spl.net.srv.BaseServer serve
+INFO: New connection handler created, connectionid: 1
+Jan 09, 2020 5:39:35 PM bgu.spl.net.Commands.Login successfulMsg
 INFO: user amit created and added to Registered
+Jan 09, 2020 5:39:55 PM bgu.spl.net.srv.BaseServer serve
+INFO: New default user created, connectionid: 2
+Jan 09, 2020 5:39:55 PM bgu.spl.net.srv.BaseServer serve
+INFO: New connection handler created, connectionid: 2
+Jan 09, 2020 5:39:55 PM bgu.spl.net.Commands.Login successfulMsg
+INFO: user amit created and added to Registered
+Jan 09, 2020 5:40:19 PM bgu.spl.net.srv.ConnectionsImpl send
+WARNING: no clients are subscribed to channel: sci-fi
+Jan 09, 2020 5:40:48 PM bgu.spl.net.Commands.JoinGenre execute
+INFO: New sub
+Jan 09, 2020 5:40:48 PM bgu.spl.net.srv.ConnectionsImpl subscribe
+INFO: User: amit subscribed from genre: sci-fi
+Jan 09, 2020 5:40:48 PM bgu.spl.net.PassiveObjects.User addSubscriptionIdPerTopic
+INFO: User: amit subscriptionid added. topic: sci-fi id: 1
