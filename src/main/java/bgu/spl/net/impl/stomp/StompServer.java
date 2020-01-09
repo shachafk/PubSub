@@ -15,7 +15,8 @@ public class StompServer {
             System.out.println("Enter port and server mode as program argument");
         }
         else {
-            ConnectionsImpl conn = ConnectionsImpl.getInstance();
+        int nThreads =2;
+            //ConnectionsImpl conn = ConnectionsImpl.getInstance();
         int port = Integer.parseInt(args[0]);
         switch (args[1].toLowerCase()){
                 case "tpc":
@@ -26,6 +27,9 @@ public class StompServer {
                     break;
                 case "reactor":
                     System.out.println("Reactor mode");
+                    Server.reactor(nThreads,port,
+                            ()-> new StompMessagingProtocolImpl<>(),
+                            ()-> new LineMessageEncoderDecoder<>()).serve();
                     break;
             }
 
