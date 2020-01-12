@@ -23,7 +23,9 @@ public class LoaningBook implements Command {
             this.genre = msg.getGenre();
             this.body = msg.getBody();
             this.lender=body.substring(body.indexOf("from")+5);
-            this.bookName=body.substring(body.indexOf("Taking")+7);
+            int s=body.indexOf("Taking")+7;
+            int f=body.indexOf("from");
+            this.bookName=body.substring(s,f-1);
 
         }
     }

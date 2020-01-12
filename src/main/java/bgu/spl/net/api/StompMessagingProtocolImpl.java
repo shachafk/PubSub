@@ -79,7 +79,8 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                     Message toSend = (Message) c.execute(user);
                     connections.send(genre, toSend);
                 }
-                else if (msg.getBody().indexOf("Taking") > 0){ //LoaningBookCase
+
+                else if (msg.getBody().indexOf("Taking") >= 0){ //LoaningBookCase
                     String genre = msg.getHeader().get(0).getSecond();
                     Command c = new LoaningBook(msg);
                     Message toSend = (Message) c.execute(user);
