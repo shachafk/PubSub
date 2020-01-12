@@ -27,7 +27,7 @@ public class AddBook implements Command {
         } else {
             this.genre = msg.getGenre();
             String body = msg.getBody();
-            this.bookName = body.substring(body.indexOf("book")+4);
+            this.bookName = body.substring(body.indexOf("book")+5);
 
         }
     }

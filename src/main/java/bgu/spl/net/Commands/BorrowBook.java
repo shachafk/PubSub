@@ -34,7 +34,7 @@ public class BorrowBook implements Command {
         } else {
             this.genre = msg.getGenre();
             String body = msg.getBody();
-            this.bookName = body.substring(body.indexOf("borrow") + 5);
+            this.bookName = body.substring(body.indexOf("borrow") + 7);
         }
     }
 
