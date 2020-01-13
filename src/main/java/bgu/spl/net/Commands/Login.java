@@ -46,13 +46,14 @@ public class Login implements Command {
 //            }
 
             if (connections.getRegistered().containsKey(username)) {//checks weather user ever signed in
-                if (connections.getLoggedIn().contains(username)) {
+                if (connections.getLoggedIn().containsKey(username)) {
                     Message error = new Message();
                     error.setCommand("ERROR");
                     error.addHeader("receipt-id", "TBD reciptID");
                     error.addHeader("message", "malformed frame received");
-                    error.setBody("The message:"+System.lineSeparator()+line+msg.toString()+line+"User already logged in”");
+                    error.setBody("The message:"+System.lineSeparator()+line+msg.toStringError()+line +"User already logged in");
                     logM.log.severe("user" + user.getName() + "already logged in");
+                    //connections.disconnect(connectionId);
                     return error;
 
                 }
@@ -60,19 +61,19 @@ public class Login implements Command {
                     User tmp = connections.getRegistered().get(username);
                     if (tmp != null) {
                         if (tmp.getPassword().equals(password)) {
-                            user.setNameAndPass(username,password);
+                            user.setNameAndPass(username, password);
                             connections.addToLoggedIn(username, user);
                             return successfulMsg(user);
+                        } else { //wrong password
+                            Message error = new Message();
+                            error.setCommand("ERROR");
+                            error.addHeader("receipt-id", "TBD reciptID");
+                            error.addHeader("message", "malformed frame received");
+                            error.setBody("The message:" + System.lineSeparator() + line + msg.toStringError() + line + "Wrong Password");
+                            logM.log.warning("user" + user.getName() + "passed wrong password");
+                            //connections.disconnect(connectionId);
+                            return error;
                         }
-                    }
-                    else { //wrong password
-                        Message error = new Message();
-                        error.setCommand("ERROR");
-                        error.addHeader("receipt-id", "TBD reciptID");
-                        error.addHeader("message", "malformed frame received");
-                        error.setBody("The message:"+System.lineSeparator()+line+msg.toString()+line+"Wrong Password");
-                        logM.log.warning("user" + user.getName() + "passed wrong password");
-                        return error;
                     }
                 }
 

@@ -1,5 +1,4 @@
 package bgu.spl.net.Commands;
-import bgu.spl.net.PassiveObjects.Book;
 import bgu.spl.net.api.Message;
 import bgu.spl.net.api.MessageID;
 import bgu.spl.net.impl.rci.Command;

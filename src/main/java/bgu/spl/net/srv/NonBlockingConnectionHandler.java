@@ -6,7 +6,10 @@ import bgu.spl.net.api.MessageEncoderDecoder;
 import bgu.spl.net.api.MessagingProtocol;
 import bgu.spl.net.api.StompMessagingProtocol;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
@@ -26,6 +29,8 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
     private ConnectionsImpl connections=ConnectionsImpl.getInstance();
     private User activeUser;
     private int connectionID;
+
+
 
 
 
@@ -68,7 +73,7 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
                         }
                         if (nextMessage.isEndOfMsg()){
                             Message readyMsg = nextMessage;
-                            System.out.println(readyMsg.toString());
+//                            System.out.println(readyMsg.toString());
                             this.connections.addMsgPerclient(readyMsg, activeUser);
                             protocol.process((T) readyMsg); //should send the response
 
@@ -145,7 +150,8 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
 
     @Override
     public void send(T msg) {
-        //IMPLEMENT IF NEEDED
+      writeQueue.add(ByteBuffer.wrap(encdec.encode(msg)));
+      reactor.updateInterestedOps(chan,SelectionKey.OP_READ | SelectionKey.OP_WRITE);
     }
 
 //    public boolean statusOk() {

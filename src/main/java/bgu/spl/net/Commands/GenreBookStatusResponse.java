@@ -28,6 +28,7 @@ public class GenreBookStatusResponse implements Command {
     public Serializable execute(Object arg) {
         User user = (User) arg;
         Message toReturn = new Message();
+        toReturn.setCommand("MESSAGE");
         toReturn.addHeader("subscription", "" + user.getSubscriptionIdPerTopic(genre));
         toReturn.addHeader("Message-id", "" + MessageID.getMessageId());
         toReturn.addHeader("destination", genre);

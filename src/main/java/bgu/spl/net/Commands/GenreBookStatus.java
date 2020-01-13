@@ -19,6 +19,8 @@ public class GenreBookStatus implements Command {
     private LogManager logM = LogManager.getInstance();
     private CommandType type = CommandType.GenreBookStatus;
     private String genre;
+    private String body;
+
 
     public GenreBookStatus(Message msg ) {
         if (!msg.getCommand().equals("SEND") | msg.getHeader().size() < 1) {
@@ -26,6 +28,7 @@ public class GenreBookStatus implements Command {
             return;
         } else {
             this.genre = msg.getGenre();
+            this.body = msg.getBody();
 
         }
     }
@@ -38,7 +41,7 @@ public class GenreBookStatus implements Command {
         toReturn.addHeader("subscription", "" + user.getSubscriptionIdPerTopic(genre));
         toReturn.addHeader("Message-id", "" + MessageID.getMessageId());
         toReturn.addHeader("destination", genre);
-        toReturn.setBody("Book status");
+        toReturn.setBody(body);
 
         return toReturn;
     }

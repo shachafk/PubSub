@@ -15,7 +15,6 @@ public class User {
     private boolean isDefault;
     private String name;
     private String password;
-    private Inventory inventory;
     private HashMap<String, Integer> subscriptions;
     private LogManager logM = LogManager.getInstance();
 
@@ -23,7 +22,6 @@ public class User {
     public User(int connectionId) {
         this.connectionId = connectionId;
         this.isDefault = true;
-        this.inventory = new Inventory();
         this.subscriptions = new HashMap<>();
     }
 
@@ -50,9 +48,6 @@ public class User {
         return name;
     }
 
-    public Inventory getInventory() {
-        return inventory;
-    }
 
 
 
@@ -96,29 +91,5 @@ public class User {
         return isDefault;
     }
 
-    public String getInventoryStatus() {
-        String toReturn = name + ":";
-        Boolean firstBook = true;
 
-        Iterator itMap = inventory.getBooks().entrySet().iterator();
-        while (itMap.hasNext()) { // iterate over the genre map
-            Map.Entry pair = (Map.Entry) itMap.next();
-            List list = (List) pair.getValue();
-            Iterator itList = list.iterator();
-            while (itList.hasNext()) { //iterate over the books list
-                Book curr = (Book) itList.next();
-                if (firstBook) {
-                    toReturn = toReturn + curr.getName();
-                    firstBook = false;
-                } else {
-                    toReturn = toReturn + "," + curr.getName();
-                }
-            }
-        }
-        if (firstBook) {
-            toReturn = "";
-        }
-        return toReturn;
-
-    }
 }
