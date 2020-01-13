@@ -1,30 +1,30 @@
-Jan 12, 2020 9:44:58 PM bgu.spl.net.srv.LogManager <init>
+Jan 13, 2020 8:50:00 PM bgu.spl.net.srv.LogManager <init>
 INFO: log start
-Jan 12, 2020 9:45:08 PM bgu.spl.net.srv.BaseServer serve
+Jan 13, 2020 8:50:07 PM bgu.spl.net.srv.BaseServer serve
 INFO: New default user created, connectionid: 1
-Jan 12, 2020 9:45:08 PM bgu.spl.net.srv.BaseServer serve
+Jan 13, 2020 8:50:07 PM bgu.spl.net.srv.BaseServer serve
 INFO: New connection handler created, connectionid: 1
-Jan 12, 2020 9:45:08 PM bgu.spl.net.Commands.Login successfulMsg
-INFO: user amit created and added to Registered
-Jan 12, 2020 9:45:10 PM bgu.spl.net.Commands.JoinGenre execute
-INFO: New sub
-Jan 12, 2020 9:45:10 PM bgu.spl.net.srv.ConnectionsImpl subscribe
-INFO: User: amit subscribed from genre: drama
-Jan 12, 2020 9:45:10 PM bgu.spl.net.PassiveObjects.User addSubscriptionIdPerTopic
-INFO: User: amit subscriptionid added. topic: drama id: 1
-Jan 12, 2020 9:45:21 PM bgu.spl.net.srv.BaseServer serve
-INFO: New default user created, connectionid: 2
-Jan 12, 2020 9:45:21 PM bgu.spl.net.srv.BaseServer serve
-INFO: New connection handler created, connectionid: 2
-Jan 12, 2020 9:45:21 PM bgu.spl.net.Commands.Login successfulMsg
+Jan 13, 2020 8:50:07 PM bgu.spl.net.Commands.Login successfulMsg
 INFO: user sha created and added to Registered
-Jan 12, 2020 9:45:24 PM bgu.spl.net.Commands.JoinGenre execute
+Jan 13, 2020 8:50:10 PM bgu.spl.net.Commands.JoinGenre execute
 INFO: New sub
-Jan 12, 2020 9:45:24 PM bgu.spl.net.srv.ConnectionsImpl subscribe
-INFO: User: sha subscribed from genre: drama
-Jan 12, 2020 9:45:24 PM bgu.spl.net.PassiveObjects.User addSubscriptionIdPerTopic
-INFO: User: sha subscriptionid added. topic: drama id: 1
-Jan 12, 2020 9:47:47 PM bgu.spl.net.srv.ConnectionsImpl unsubscribe
-INFO: User: amit unsubscribed from genre: drama
-Jan 12, 2020 9:47:53 PM bgu.spl.net.srv.ConnectionsImpl unsubscribe
-INFO: User: sha unsubscribed from genre: drama
+Jan 13, 2020 8:50:10 PM bgu.spl.net.srv.ConnectionsImpl subscribe
+INFO: User: sha subscribed from genre: sci-fi
+Jan 13, 2020 8:50:10 PM bgu.spl.net.PassiveObjects.User addSubscriptionIdPerTopic
+INFO: User: sha subscriptionid added. topic: sci-fi id: 1
+Jan 13, 2020 8:50:16 PM bgu.spl.net.srv.ConnectionsImpl unsubscribe
+INFO: User: sha unsubscribed from genre: sci-fi
+Jan 13, 2020 8:53:36 PM bgu.spl.net.srv.BaseServer serve
+INFO: New default user created, connectionid: 2
+Jan 13, 2020 8:53:36 PM bgu.spl.net.srv.BaseServer serve
+INFO: New connection handler created, connectionid: 2
+Jan 13, 2020 8:53:36 PM bgu.spl.net.Commands.Login successfulMsg
+INFO: user fgfsgfdsg created and added to Registered
+Jan 13, 2020 8:53:44 PM bgu.spl.net.Commands.JoinGenre execute
+INFO: New sub
+Jan 13, 2020 8:53:44 PM bgu.spl.net.srv.ConnectionsImpl subscribe
+INFO: User: fgfsgfdsg subscribed from genre: sci-fi
+Jan 13, 2020 8:53:44 PM bgu.spl.net.PassiveObjects.User addSubscriptionIdPerTopic
+INFO: User: fgfsgfdsg subscriptionid added. topic: sci-fi id: 1
+Jan 13, 2020 8:53:59 PM bgu.spl.net.srv.ConnectionsImpl unsubscribe
+INFO: User: fgfsgfdsg unsubscribed from genre: sci-fi

@@ -31,7 +31,6 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 Command a = new Login(msg);
                 Message toSend = (Message) a.execute(user);
                 connections.send(user.getConnectionId(),toSend);
-                System.out.println("CONNECT");
             }
 
                 break;
@@ -39,48 +38,47 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 Command c = new JoinGenre(msg);
                 Message toSend = (Message) c.execute(user);
                 connections.send(user.getConnectionId(),toSend);
-                System.out.println("SUBSCRIBE");
                 break;
             }
             case SEND: {
                 System.out.println("SEND");
-                if (msg.getBody().indexOf("added") > 0) { //addBookCase
+                if (msg.getBody().toLowerCase().indexOf("added") > 0) { //addBookCase
                     Command c = new AddBook(msg);
                     Message toSend = (Message)  c.execute(user);
                     connections.send(msg.getHeader().get(0).getSecond(),toSend);
                 }
-                else if (msg.getBody().indexOf("Returning") > 0) { //ReturnBookCase
+                else if (msg.getBody().toLowerCase().indexOf("returning") >= 0) { //ReturnBookCase
                     Command c = new ReturnBook(msg);
                     Message toSend = (Message)  c.execute(user);
                     connections.send(msg.getHeader().get(0).getSecond(),toSend);
                 }
-                else if (msg.getBody().indexOf("book status") > 0) { //GenreBookStatusCase
+                else if (msg.getBody().toLowerCase().indexOf("book status") >= 0) { //GenreBookStatusCase
                     String genre = msg.getHeader().get(0).getSecond();
                     Command c = new GenreBookStatus(msg);
                     Message toSend = (Message) c.execute(user);
                     connections.send(genre, toSend);
                 }
 
-                else if (msg.getBody().indexOf(user.getName()+":") > 0){ //GenreBookStatusResponseCase
+                else if (msg.getBody().toLowerCase().indexOf(user.getName()+":") >= 0){ //GenreBookStatusResponseCase
                     String genre = msg.getHeader().get(0).getSecond();
                     Command c = new GenreBookStatusResponse(msg);
                     Message toSend = (Message) c.execute(user);
                     connections.send(genre, toSend);
                 }
-                else if (msg.getBody().indexOf("wish") > 0){ //BorrowBookCase
+                else if (msg.getBody().toLowerCase().indexOf("wish") > 0){ //BorrowBookCase
                     String genre = msg.getHeader().get(0).getSecond();
                     Command c = new BorrowBook(msg);
                     Message toSend = (Message) c.execute(user);
                     connections.send(genre, toSend);
                 }
-                else if (msg.getBody().indexOf("has") > 0){ //BorrowBookResponseCase
+                else if (msg.getBody().toLowerCase().indexOf("has") > 0){ //BorrowBookResponseCase
                     String genre = msg.getHeader().get(0).getSecond();
                     Command c = new BorrowBookResponse(msg);
                     Message toSend = (Message) c.execute(user);
                     connections.send(genre, toSend);
                 }
 
-                else if (msg.getBody().indexOf("Taking") >= 0){ //LoaningBookCase
+                else if (msg.getBody().toLowerCase().indexOf("taking") >= 0){ //LoaningBookCase
                     String genre = msg.getHeader().get(0).getSecond();
                     Command c = new LoaningBook(msg);
                     Message toSend = (Message) c.execute(user);
@@ -92,15 +90,13 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 Command c = new Logout(msg);
                 Message toSend = (Message) c.execute(user);
                 connections.send(user.getConnectionId(),toSend);
-                System.out.println(toSend.toString());
-                System.out.println("DISCONNECT");
+
             }
                 break;
             case UNSUBSCRIBE: {
                 Command c = new ExitGenre(msg);
                 Message toSend = (Message)  c.execute(user);
                 connections.send(user.getConnectionId(),toSend);
-                System.out.println("UNSUBSCRIBE");
                 break;
             }
         }

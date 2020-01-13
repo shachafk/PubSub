@@ -23,6 +23,7 @@ public class ReturnBook implements Command {
     private String user;
     private LogManager logM = LogManager.getInstance();
     private CommandType type = CommandType.ReturnBook;
+    private String body;
 
 
     public ReturnBook(Message msg){
@@ -34,6 +35,7 @@ public class ReturnBook implements Command {
             String body = msg.getBody();
             this.bookName = body.substring(body.indexOf("Returning")+10,body.indexOf("to"));
             this.user = body.substring(body.indexOf("to") +3);
+            this.body = body;
         }
     }
 
@@ -41,7 +43,6 @@ public class ReturnBook implements Command {
     @Override
     public Serializable execute(Object arg) {
         User user = (User) arg;
-        User owner = user.getInventory().returnBook(genre,bookName); //If a book has been double borrowed, it need to be returned in the correct order - TBD
 
 
         Message toReturn = new Message();
@@ -49,7 +50,7 @@ public class ReturnBook implements Command {
         toReturn.addHeader("subscription", ""+ user.getSubscriptionIdPerTopic(genre));
         toReturn.addHeader("Message-id", ""+ MessageID.getMessageId());
         toReturn.addHeader("destination",genre);
-        toReturn.setBody( "Returning "+ bookName+ " to "+ owner.getName());
+        toReturn.setBody(body);
         return toReturn;
     }
 

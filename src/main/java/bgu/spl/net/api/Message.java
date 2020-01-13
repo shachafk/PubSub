@@ -192,6 +192,19 @@ public class Message implements Serializable {
         return toReturn;
     }
 
+    public String toStringError(){
+        String toReturn = "";
+        toReturn = toReturn + command + System.lineSeparator();
+        for (Pair p : header){
+            String curr = p.getFirst() + ":" + p.getSecond();
+            toReturn = toReturn + curr + System.lineSeparator();
+        }
+        toReturn = toReturn + System.lineSeparator();
+        toReturn = toReturn + body + System.lineSeparator();
+
+        return toReturn;
+    }
+
     public static void main(String[] args) {
         Message msg = new Message();
         msg.setCommand("CONNECT");
