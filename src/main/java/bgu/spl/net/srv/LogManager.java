@@ -1,5 +1,4 @@
 package bgu.spl.net.srv;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.FileHandler;
@@ -9,12 +8,11 @@ import java.util.logging.SimpleFormatter;
 public class LogManager {
     public Logger log;
     private static class singletonHolder{
-        private static LogManager logInstance = new LogManager("Ass3.log");}
+        private static LogManager logInstance = new LogManager("spl3.log");}
     FileHandler fh;
 
     private LogManager(String path){
-        log = Logger.getLogger("");
-        log.setUseParentHandlers(false);
+        log = Logger.getLogger("testtest");
 
         try {
 
@@ -29,7 +27,6 @@ public class LogManager {
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
             log.setUseParentHandlers(false);
-
 
             // the following statement is used to log any messages
             log.info("log start");
