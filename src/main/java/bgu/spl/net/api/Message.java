@@ -211,7 +211,7 @@ public class Message implements Serializable {
         msg.addHeader("destination","78");
         msg.addHeader("version", "1.2");
         msg.setBody("logged in successfully ");
-        System.out.println(msg.toString());
+        //System.out.println(msg.toString());
     }
 
     public MessageType getType() {

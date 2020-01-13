@@ -73,7 +73,7 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
                         }
                         if (nextMessage.isEndOfMsg()){
                             Message readyMsg = nextMessage;
-                            System.out.println(readyMsg.toString());
+//                            System.out.println(readyMsg.toString());
                             this.connections.addMsgPerclient(readyMsg, activeUser);
                             protocol.process((T) readyMsg); //should send the response
 

@@ -41,7 +41,7 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 break;
             }
             case SEND: {
-                System.out.println("SEND");
+                //System.out.println("SEND");
                 if (msg.getBody().toLowerCase().indexOf("added") > 0) { //addBookCase
                     Command c = new AddBook(msg);
                     Message toSend = (Message)  c.execute(user);

@@ -14,6 +14,7 @@ public class LogManager {
 
     private LogManager(String path){
         log = Logger.getLogger("");
+        log.setUseParentHandlers(false);
 
         try {
 
@@ -28,6 +29,7 @@ public class LogManager {
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
             log.setUseParentHandlers(false);
+
 
             // the following statement is used to log any messages
             log.info("log start");
