@@ -4,6 +4,7 @@ import bgu.spl.net.Commands.Command;
 import bgu.spl.net.PassiveObjects.User;
 import bgu.spl.net.srv.Connections;
 import bgu.spl.net.srv.ConnectionsImpl;
+import bgu.spl.net.srv.LogManager;
 
 import java.io.Serializable;
 
@@ -12,11 +13,13 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
     private int connectionid;
     private ConnectionsImpl connections ;
     private boolean terminate;
+    private LogManager logM = LogManager.getInstance();
+
 
     public StompMessagingProtocolImpl( ){
     }
 
-    public void start(int connectionId, Connections<String> connections) {
+    public void start(int connectionId, ConnectionsImpl connections) {
         this.connectionid = connectionId;
         this.connections = (ConnectionsImpl) connections;
 
@@ -31,6 +34,7 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 Command a = new Login(msg);
                 Message toSend = a.execute(user);
                 connections.send(user.getConnectionId(),toSend);
+                logM.log.info("Sent msg to " + user.getConnectionId() + " Msg: " + '\n' + toSend);
                 if (toSend.getCommand() == "ERROR"){
                     connections.disconnect(user.getConnectionId());
                 }
@@ -41,6 +45,7 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 Command c = new JoinGenre(msg);
                 Message toSend =  c.execute(user);
                 connections.send(user.getConnectionId(),toSend);
+                logM.log.info("Sent msg to " + user.getConnectionId() + " Msg: " + '\n' + toSend);
                 break;
             }
             case SEND: {
@@ -93,7 +98,7 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 Command c = new Logout(msg);
                 Message toSend =  c.execute(user);
                 connections.send(user.getConnectionId(),toSend);
-
+                terminate=true;
             }
                 break;
             case UNSUBSCRIBE: {

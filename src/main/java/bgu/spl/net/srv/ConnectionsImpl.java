@@ -3,7 +3,6 @@ import bgu.spl.net.api.Message;
 import bgu.spl.net.PassiveObjects.User;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -53,7 +52,7 @@ public class ConnectionsImpl implements Connections {
     Sends a message T to clients subscribed to channel.
      */
     public void send(String channel, Object msg) {
-        Queue channelClients = topics.get(channel);
+        Queue<User> channelClients = topics.get(channel);
         if (channelClients == null || channelClients.size() == 0) {
             logM.log.warning("no clients are subscribed to channel: " + channel);
         } else {
@@ -97,7 +96,7 @@ public class ConnectionsImpl implements Connections {
         return registered;
     }
 
-    public ConcurrentLinkedQueue getUsersByTopic(String genre){
+    public ConcurrentLinkedQueue<User> getUsersByTopic(String genre){
         return topics.get(genre);
     }
 

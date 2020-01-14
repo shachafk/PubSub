@@ -14,7 +14,7 @@ public class StompServer {
             System.out.println("Enter port and server mode as program argument");
         }
         else {
-        int nThreads =2;
+        int nThreads =Runtime.getRuntime().availableProcessors();
             //ConnectionsImpl conn = ConnectionsImpl.getInstance();
         int port = Integer.parseInt(args[0]);
         switch (args[1].toLowerCase()){

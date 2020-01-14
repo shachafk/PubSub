@@ -69,9 +69,11 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
                     while (buf.hasRemaining()) {
                         String toAdd= (String) encdec.decodeNextByte(buf.get());
                         if (toAdd!=null) {
-                            nextMessage.addNextInput(toAdd);
-                        }
-                        if (nextMessage.isEndOfMsg()){
+                            String lines[] = toAdd.split("\\r?\\n");
+                            for (String line : lines){
+                                nextMessage.addNextInput(line);
+                            }
+                            nextMessage.loadHeaders();
                             Message readyMsg = nextMessage;
                             this.connections.addMsgPerclient(readyMsg, activeUser);
                             protocol.process((T) readyMsg); //should send the response

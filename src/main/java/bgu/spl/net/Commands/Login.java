@@ -107,7 +107,7 @@ public class Login implements Command {
         Message success = new Message();
         success.setCommand("CONNECTED");
         success.addHeader("version", ""+version);
-        success.setBody("Login successful");
+        //success.setBody("Login successful");
         logM.log.info("user " + user.getName() + " created and added to Registered");
         return success;
     }
