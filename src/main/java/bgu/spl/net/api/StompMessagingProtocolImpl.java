@@ -31,6 +31,9 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 Command a = new Login(msg);
                 Message toSend = (Message) a.execute(user);
                 connections.send(user.getConnectionId(),toSend);
+                if (toSend.getCommand() == "ERROR"){
+                    connections.disconnect(user.getConnectionId());
+                }
             }
 
                 break;
