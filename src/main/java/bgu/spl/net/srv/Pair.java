@@ -1,10 +1,10 @@
 package bgu.spl.net.srv;
 
-public class Pair<A, B> {
-    private A first;
-    private B second;
+public class Pair {
+    private String first;
+    private String second;
 
-    public Pair(A first, B second) {
+    public Pair(String first, String second) {
         super();
         this.first = first;
         this.second = second;
@@ -37,19 +37,19 @@ public class Pair<A, B> {
         return "(" + first + ", " + second + ")";
     }
 
-    public A getFirst() {
+    public String getFirst() {
         return first;
     }
 
-    public void setFirst(A first) {
+    public void setFirst(String first) {
         this.first = first;
     }
 
-    public B getSecond() {
+    public String getSecond() {
         return second;
     }
 
-    public void setSecond(B second) {
+    public void setSecond(String second) {
         this.second = second;
     }
 }

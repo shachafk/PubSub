@@ -1,14 +1,9 @@
 package bgu.spl.net.Commands;
 
 import bgu.spl.net.api.Message;
-import bgu.spl.net.impl.rci.Command;
 import bgu.spl.net.PassiveObjects.User;
 import bgu.spl.net.srv.ConnectionsImpl;
 import bgu.spl.net.srv.LogManager;
-import bgu.spl.net.srv.Pair;
-
-import java.io.Serializable;
-import java.util.Iterator;
 
 /**
  Exit Genre Reading Club Command
@@ -40,7 +35,7 @@ public class ExitGenre implements Command {
 
 
 
-    public Serializable execute(Object arg) {
+    public Message execute(User arg) {
         User user = (User) arg;
         ConnectionsImpl conn = ConnectionsImpl.getInstance();
         conn.unsubscribe(genre, user);

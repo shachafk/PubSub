@@ -71,7 +71,7 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
     }
 
     @Override
-    public void send(T msg) throws IOException {
+    public synchronized void send(T msg) throws IOException {
            out=new BufferedOutputStream(sock.getOutputStream());
            byte[] tmp=encdec.encode(msg);
            out.write(tmp);

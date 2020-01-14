@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Message implements Serializable {
     private String command;
-    private List<Pair<String,String>> header;
+    private List<Pair> header;
     private String body;
     private boolean emptyLine = false;
     private boolean endOfMsg = false;
@@ -28,7 +28,7 @@ public class Message implements Serializable {
 
 
     public Message() {
-        header = new LinkedList<Pair<String,String>>();
+        header = new LinkedList<Pair>();
     }
 
     public Message(Message from){
@@ -154,7 +154,7 @@ public class Message implements Serializable {
         return version;
     }
 
-    public List<Pair<String, String>> getHeader() {
+    public List<Pair> getHeader() {
         return header;
     }
 

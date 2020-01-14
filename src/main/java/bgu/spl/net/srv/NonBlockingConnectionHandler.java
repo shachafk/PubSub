@@ -73,19 +73,12 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
                         }
                         if (nextMessage.isEndOfMsg()){
                             Message readyMsg = nextMessage;
-//                            System.out.println(readyMsg.toString());
                             this.connections.addMsgPerclient(readyMsg, activeUser);
                             protocol.process((T) readyMsg); //should send the response
 
                             nextMessage.clear();
                         }
-//                        T nextMessage = encdec.decodeNextByte(buf.get());
-//                        if (nextMessage != null) {
-                            //protocol.process(nextMessage); //should send the msg
-//                            if (response != null) {
-//                                writeQueue.add(ByteBuffer.wrap(encdec.encode(response)));
-//                                reactor.updateInterestedOps(chan, SelectionKey.OP_READ | SelectionKey.OP_WRITE);
-//                            }
+
                         }
 
                 } finally {
@@ -149,12 +142,10 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
     }
 
     @Override
-    public void send(T msg) {
+    public synchronized void send(T msg) {
       writeQueue.add(ByteBuffer.wrap(encdec.encode(msg)));
       reactor.updateInterestedOps(chan,SelectionKey.OP_READ | SelectionKey.OP_WRITE);
     }
 
-//    public boolean statusOk() {
-//        return false;
-//    }
+
 }
