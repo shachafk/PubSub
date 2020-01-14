@@ -3,7 +3,6 @@ package bgu.spl.net.impl.stomp;
 import bgu.spl.net.api.LineMessageEncoderDecoder;
 import bgu.spl.net.api.MessageID;
 import bgu.spl.net.api.StompMessagingProtocolImpl;
-import bgu.spl.net.impl.rci.ObjectEncoderDecoder;
 import bgu.spl.net.srv.ConnectionsImpl;
 import bgu.spl.net.srv.Server;
 
@@ -15,7 +14,7 @@ public class StompServer {
             System.out.println("Enter port and server mode as program argument");
         }
         else {
-        int nThreads =2;
+        int nThreads =Runtime.getRuntime().availableProcessors();
             //ConnectionsImpl conn = ConnectionsImpl.getInstance();
         int port = Integer.parseInt(args[0]);
         switch (args[1].toLowerCase()){

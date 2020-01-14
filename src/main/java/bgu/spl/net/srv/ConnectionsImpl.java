@@ -3,15 +3,13 @@ import bgu.spl.net.api.Message;
 import bgu.spl.net.PassiveObjects.User;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ConnectionsImpl implements Connections {
 
-    private HashMap<Integer,ConnectionHandler> activeClients = new HashMap<>(); // ConnectionID, ConnectionHandler
-
+    private ConcurrentHashMap<Integer,ConnectionHandler> activeClients = new ConcurrentHashMap<>(); // ConnectionID, ConnectionHandler
     private LogManager logM = LogManager.getInstance();
     private ConcurrentHashMap<String, ConcurrentLinkedQueue<User>> topics= new ConcurrentHashMap<>();// will hold all topics in the broker
     private ConcurrentHashMap<String, User> registered=new ConcurrentHashMap<>(); //will hold all registered clients
@@ -54,7 +52,7 @@ public class ConnectionsImpl implements Connections {
     Sends a message T to clients subscribed to channel.
      */
     public void send(String channel, Object msg) {
-        Queue channelClients = topics.get(channel);
+        Queue<User> channelClients = topics.get(channel);
         if (channelClients == null || channelClients.size() == 0) {
             logM.log.warning("no clients are subscribed to channel: " + channel);
         } else {
@@ -98,7 +96,7 @@ public class ConnectionsImpl implements Connections {
         return registered;
     }
 
-    public ConcurrentLinkedQueue getUsersByTopic(String genre){
+    public ConcurrentLinkedQueue<User> getUsersByTopic(String genre){
         return topics.get(genre);
     }
 
@@ -115,7 +113,7 @@ public class ConnectionsImpl implements Connections {
     public ConcurrentHashMap<String, ConcurrentLinkedQueue<User>> getTopics() {
         return topics;
     }
-    public HashMap<Integer, ConnectionHandler> getActiveClients() {
+    public ConcurrentHashMap<Integer, ConnectionHandler> getActiveClients() {
         return activeClients;
     }
 }

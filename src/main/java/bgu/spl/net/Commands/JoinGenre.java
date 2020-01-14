@@ -1,11 +1,8 @@
 package bgu.spl.net.Commands;
 import bgu.spl.net.api.Message;
-import bgu.spl.net.impl.rci.Command;
 import bgu.spl.net.PassiveObjects.User;
 import bgu.spl.net.srv.ConnectionsImpl;
 import bgu.spl.net.srv.LogManager;
-
-import java.io.Serializable;
 
 /**
  * Join Genre Reading Club Command
@@ -36,7 +33,7 @@ public class JoinGenre implements Command {
     }
 
     @Override
-    public Serializable execute(Object arg) {
+    public Message execute(User arg) {
         User user = (User) arg;
         logM.log.info("New sub");
         ConnectionsImpl conn = ConnectionsImpl.getInstance();

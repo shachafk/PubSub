@@ -42,13 +42,15 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
             while (!protocol.shouldTerminate() && connected && (read = in.read()) >= 0) {
                 String toAdd= (String)encdec.decodeNextByte((byte) read);
                 if (toAdd!=null) {
-                    nextMessage.addNextInput(toAdd);
-                }
-                if (nextMessage.isEndOfMsg()){
-
+                    String lines[] = toAdd.split("\\r?\\n");
+                    for (String line : lines){
+                        nextMessage.addNextInput(line);
+                    }
+                    nextMessage.loadHeaders();
                     Message readyMsg = new Message(nextMessage);
                     //System.out.println(readyMsg.toString());
                         this.connections.addMsgPerclient(readyMsg, activeUser);
+                        logM.log.info("Proccessing the msg: "+ '\n' + readyMsg);
                         protocol.process((T) readyMsg); //should send the response
 
                     nextMessage.clear();
@@ -71,7 +73,7 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
     }
 
     @Override
-    public void send(T msg) throws IOException {
+    public synchronized void send(T msg) throws IOException {
            out=new BufferedOutputStream(sock.getOutputStream());
            byte[] tmp=encdec.encode(msg);
            out.write(tmp);

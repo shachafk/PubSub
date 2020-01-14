@@ -9,9 +9,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import static bgu.spl.net.api.MessageType.EMPTY;
+
 public class Message implements Serializable {
     private String command;
-    private List<Pair<String,String>> header;
+    private List<Pair> header;
     private String body;
     private boolean emptyLine = false;
     private boolean endOfMsg = false;
@@ -28,7 +30,9 @@ public class Message implements Serializable {
 
 
     public Message() {
-        header = new LinkedList<Pair<String,String>>();
+        this.type = EMPTY;
+        header = new LinkedList<Pair>();
+        body = "";
     }
 
     public Message(Message from){
@@ -154,7 +158,7 @@ public class Message implements Serializable {
         return version;
     }
 
-    public List<Pair<String, String>> getHeader() {
+    public List<Pair> getHeader() {
         return header;
     }
 
@@ -187,7 +191,6 @@ public class Message implements Serializable {
         }
         toReturn = toReturn + System.lineSeparator();
         toReturn = toReturn + body + System.lineSeparator();
-        toReturn = toReturn + "^@";
 
         return toReturn;
     }
@@ -225,6 +228,6 @@ public class Message implements Serializable {
         emptyLine = false;
         endOfMsg = false;
         index = 0;
-        type = null;
+        type = EMPTY;
     }
 }

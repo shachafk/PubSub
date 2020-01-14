@@ -1,5 +1,7 @@
 package bgu.spl.net.api;
 
+import bgu.spl.net.srv.LogManager;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.function.Supplier;
@@ -8,25 +10,23 @@ public class LineMessageEncoderDecoder<T> implements MessageEncoderDecoder<T>{
 
     private byte[] bytes = new byte[1 << 10]; //start with 1k
     private int len = 0;
+    private LogManager logM = LogManager.getInstance();
+
 
     @Override
     public T decodeNextByte(byte nextByte) {
         //notice that the top 128 ascii characters have the same representation as their utf-8 counterparts
         //this allow us to do the following comparison
-        if (nextByte == '\n') {
+        if (nextByte == '\u0000') {
             return (T) popString();
         }
-        if (nextByte == '\u0000'){
-            return (T) "Finito";
-        }
-
         pushByte(nextByte);
         return null; //not a line yet
     }
 
     @Override
     public byte[] encode(T message) {
-        return (message + "\n").getBytes(); //uses utf8 by default
+        return (""+message + '\u0000' ).getBytes(); //uses utf8 by default
     }
 
 
@@ -43,6 +43,7 @@ public class LineMessageEncoderDecoder<T> implements MessageEncoderDecoder<T>{
         //this is not actually required as it is the default encoding in java.
         String result = new String(bytes, 0, len, StandardCharsets.UTF_8);
         len = 0;
+        logM.log.info("pop string: "+ result);
         return result;
     }
 

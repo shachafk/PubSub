@@ -69,23 +69,18 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
                     while (buf.hasRemaining()) {
                         String toAdd= (String) encdec.decodeNextByte(buf.get());
                         if (toAdd!=null) {
-                            nextMessage.addNextInput(toAdd);
-                        }
-                        if (nextMessage.isEndOfMsg()){
+                            String lines[] = toAdd.split("\\r?\\n");
+                            for (String line : lines){
+                                nextMessage.addNextInput(line);
+                            }
+                            nextMessage.loadHeaders();
                             Message readyMsg = nextMessage;
-//                            System.out.println(readyMsg.toString());
                             this.connections.addMsgPerclient(readyMsg, activeUser);
                             protocol.process((T) readyMsg); //should send the response
 
                             nextMessage.clear();
                         }
-//                        T nextMessage = encdec.decodeNextByte(buf.get());
-//                        if (nextMessage != null) {
-                            //protocol.process(nextMessage); //should send the msg
-//                            if (response != null) {
-//                                writeQueue.add(ByteBuffer.wrap(encdec.encode(response)));
-//                                reactor.updateInterestedOps(chan, SelectionKey.OP_READ | SelectionKey.OP_WRITE);
-//                            }
+
                         }
 
                 } finally {
@@ -149,12 +144,10 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
     }
 
     @Override
-    public void send(T msg) {
+    public synchronized void send(T msg) {
       writeQueue.add(ByteBuffer.wrap(encdec.encode(msg)));
       reactor.updateInterestedOps(chan,SelectionKey.OP_READ | SelectionKey.OP_WRITE);
     }
 
-//    public boolean statusOk() {
-//        return false;
-//    }
+
 }

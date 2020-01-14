@@ -8,5 +8,6 @@ public enum MessageType {
     DISCONNECT,
     MESSAGE,
     RECEIPT,
-    ERROR
+    ERROR,
+    EMPTY
 }

@@ -3,10 +3,7 @@ package bgu.spl.net.Commands;
 import bgu.spl.net.PassiveObjects.User;
 import bgu.spl.net.api.Message;
 import bgu.spl.net.api.MessageID;
-import bgu.spl.net.impl.rci.Command;
 import bgu.spl.net.srv.LogManager;
-
-import java.io.Serializable;
 
 public class GenreBookStatusResponse implements Command {
     private LogManager logM = LogManager.getInstance();
@@ -25,7 +22,7 @@ public class GenreBookStatusResponse implements Command {
         }
     }
 
-    public Serializable execute(Object arg) {
+    public Message execute(User arg) {
         User user = (User) arg;
         Message toReturn = new Message();
         toReturn.setCommand("MESSAGE");

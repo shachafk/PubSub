@@ -1,9 +1,10 @@
 package bgu.spl.net.api;
 import bgu.spl.net.Commands.*;
-import bgu.spl.net.impl.rci.Command;
+import bgu.spl.net.Commands.Command;
 import bgu.spl.net.PassiveObjects.User;
 import bgu.spl.net.srv.Connections;
 import bgu.spl.net.srv.ConnectionsImpl;
+import bgu.spl.net.srv.LogManager;
 
 import java.io.Serializable;
 
@@ -12,11 +13,13 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
     private int connectionid;
     private ConnectionsImpl connections ;
     private boolean terminate;
+    private LogManager logM = LogManager.getInstance();
+
 
     public StompMessagingProtocolImpl( ){
     }
 
-    public void start(int connectionId, Connections<String> connections) {
+    public void start(int connectionId, ConnectionsImpl connections) {
         this.connectionid = connectionId;
         this.connections = (ConnectionsImpl) connections;
 
@@ -29,8 +32,9 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
         switch (msg.getType()){
             case CONNECT: {
                 Command a = new Login(msg);
-                Message toSend = (Message) a.execute(user);
+                Message toSend = a.execute(user);
                 connections.send(user.getConnectionId(),toSend);
+                logM.log.info("Sent msg to " + user.getConnectionId() + " Msg: " + '\n' + toSend);
                 if (toSend.getCommand() == "ERROR"){
                     connections.disconnect(user.getConnectionId());
                 }
@@ -39,69 +43,76 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 break;
             case SUBSCRIBE: {
                 Command c = new JoinGenre(msg);
-                Message toSend = (Message) c.execute(user);
+                Message toSend =  c.execute(user);
                 connections.send(user.getConnectionId(),toSend);
+                logM.log.info("Sent msg to " + user.getConnectionId() + " Msg: " + '\n' + toSend);
                 break;
             }
             case SEND: {
                 //System.out.println("SEND");
                 if (msg.getBody().toLowerCase().indexOf("added") > 0) { //addBookCase
                     Command c = new AddBook(msg);
-                    Message toSend = (Message)  c.execute(user);
+                    Message toSend =  c.execute(user);
                     connections.send(msg.getHeader().get(0).getSecond(),toSend);
                 }
                 else if (msg.getBody().toLowerCase().indexOf("returning") >= 0) { //ReturnBookCase
                     Command c = new ReturnBook(msg);
-                    Message toSend = (Message)  c.execute(user);
+                    Message toSend =  c.execute(user);
                     connections.send(msg.getHeader().get(0).getSecond(),toSend);
                 }
                 else if (msg.getBody().toLowerCase().indexOf("book status") >= 0) { //GenreBookStatusCase
                     String genre = msg.getHeader().get(0).getSecond();
                     Command c = new GenreBookStatus(msg);
-                    Message toSend = (Message) c.execute(user);
+                    Message toSend =  c.execute(user);
                     connections.send(genre, toSend);
                 }
 
                 else if (msg.getBody().toLowerCase().indexOf(user.getName()+":") >= 0){ //GenreBookStatusResponseCase
                     String genre = msg.getHeader().get(0).getSecond();
                     Command c = new GenreBookStatusResponse(msg);
-                    Message toSend = (Message) c.execute(user);
+                    Message toSend =  c.execute(user);
                     connections.send(genre, toSend);
                 }
                 else if (msg.getBody().toLowerCase().indexOf("wish") > 0){ //BorrowBookCase
                     String genre = msg.getHeader().get(0).getSecond();
                     Command c = new BorrowBook(msg);
-                    Message toSend = (Message) c.execute(user);
+                    Message toSend =  c.execute(user);
                     connections.send(genre, toSend);
                 }
                 else if (msg.getBody().toLowerCase().indexOf("has") > 0){ //BorrowBookResponseCase
                     String genre = msg.getHeader().get(0).getSecond();
                     Command c = new BorrowBookResponse(msg);
-                    Message toSend = (Message) c.execute(user);
+                    Message toSend =  c.execute(user);
                     connections.send(genre, toSend);
                 }
 
                 else if (msg.getBody().toLowerCase().indexOf("taking") >= 0){ //LoaningBookCase
                     String genre = msg.getHeader().get(0).getSecond();
                     Command c = new LoaningBook(msg);
-                    Message toSend = (Message) c.execute(user);
+                    Message toSend =  c.execute(user);
                     connections.send(genre, toSend);
                 }
                 break;
             }
             case DISCONNECT:{
                 Command c = new Logout(msg);
-                Message toSend = (Message) c.execute(user);
+                Message toSend =  c.execute(user);
                 connections.send(user.getConnectionId(),toSend);
-
+                terminate=true;
             }
                 break;
             case UNSUBSCRIBE: {
                 Command c = new ExitGenre(msg);
-                Message toSend = (Message)  c.execute(user);
+                Message toSend =   c.execute(user);
                 connections.send(user.getConnectionId(),toSend);
                 break;
             }
+            case MESSAGE:
+                break;
+            case RECEIPT:
+                break;
+            case ERROR:
+                break;
         }
     }
 
