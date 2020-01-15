@@ -1,6 +1,7 @@
 package bgu.spl.net.Commands;
 import bgu.spl.net.PassiveObjects.User;
 import bgu.spl.net.api.Message;
+import bgu.spl.net.api.MessageID;
 import bgu.spl.net.srv.LogManager;
 
 /**
@@ -44,6 +45,8 @@ public class BorrowBook implements Command {
             User user = (User) arg;
             Message toReturn = new Message();
             toReturn.setCommand("MESSAGE");
+            toReturn.addHeader("subscription", ""+ user.getSubscriptionIdPerTopic(genre));
+            toReturn.addHeader("Message-id", ""+ MessageID.getMessageId());
             toReturn.addHeader("destination",""+genre);
             toReturn.setBody("" + user.getName()+" wish to borrow "+bookName);
             return toReturn;

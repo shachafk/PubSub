@@ -53,17 +53,20 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                 if (msg.getBody().toLowerCase().indexOf("added") > 0) { //addBookCase
                     Command c = new AddBook(msg);
                     Message toSend =  c.execute(user);
+                    logM.log.info("Sent msg to " + user.getConnectionId() + " Msg: " + '\n' + toSend);
                     connections.send(msg.getHeader().get(0).getSecond(),toSend);
                 }
                 else if (msg.getBody().toLowerCase().indexOf("returning") >= 0) { //ReturnBookCase
                     Command c = new ReturnBook(msg);
                     Message toSend =  c.execute(user);
+                    logM.log.info("Sent msg to " + user.getConnectionId() + " Msg: " + '\n' + toSend);
                     connections.send(msg.getHeader().get(0).getSecond(),toSend);
                 }
                 else if (msg.getBody().toLowerCase().indexOf("book status") >= 0) { //GenreBookStatusCase
                     String genre = msg.getHeader().get(0).getSecond();
                     Command c = new GenreBookStatus(msg);
                     Message toSend =  c.execute(user);
+                    logM.log.info("Sent msg to " + user.getConnectionId() + " Msg: " + '\n' + toSend);
                     connections.send(genre, toSend);
                 }
 
@@ -71,18 +74,21 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                     String genre = msg.getHeader().get(0).getSecond();
                     Command c = new GenreBookStatusResponse(msg);
                     Message toSend =  c.execute(user);
+                    logM.log.info("Sent msg to " + user.getConnectionId() + " Msg: " + '\n' + toSend);
                     connections.send(genre, toSend);
                 }
                 else if (msg.getBody().toLowerCase().indexOf("wish") > 0){ //BorrowBookCase
                     String genre = msg.getHeader().get(0).getSecond();
                     Command c = new BorrowBook(msg);
                     Message toSend =  c.execute(user);
+                    logM.log.info("Sent msg to " + user.getConnectionId() + " Msg: " + '\n' + toSend);
                     connections.send(genre, toSend);
                 }
                 else if (msg.getBody().toLowerCase().indexOf("has") > 0){ //BorrowBookResponseCase
                     String genre = msg.getHeader().get(0).getSecond();
                     Command c = new BorrowBookResponse(msg);
                     Message toSend =  c.execute(user);
+                    logM.log.info("Sent msg to " + user.getConnectionId() + " Msg: " + '\n' + toSend);
                     connections.send(genre, toSend);
                 }
 
@@ -90,6 +96,7 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
                     String genre = msg.getHeader().get(0).getSecond();
                     Command c = new LoaningBook(msg);
                     Message toSend =  c.execute(user);
+                    logM.log.info("Sent msg to " + user.getConnectionId() + " Msg: " + '\n' + toSend);
                     connections.send(genre, toSend);
                 }
                 break;
@@ -97,13 +104,16 @@ public class StompMessagingProtocolImpl<T> implements StompMessagingProtocol<Ser
             case DISCONNECT:{
                 Command c = new Logout(msg);
                 Message toSend =  c.execute(user);
+                logM.log.info("Sent msg to " + user.getConnectionId() + " Msg: " + '\n' + toSend);
                 connections.send(user.getConnectionId(),toSend);
+                connections.getLoggedIn().remove(user.getName());
                 terminate=true;
             }
                 break;
             case UNSUBSCRIBE: {
                 Command c = new ExitGenre(msg);
                 Message toSend =   c.execute(user);
+                logM.log.info("Sent msg to " + user.getConnectionId() + " Msg: " + '\n' + toSend);
                 connections.send(user.getConnectionId(),toSend);
                 break;
             }

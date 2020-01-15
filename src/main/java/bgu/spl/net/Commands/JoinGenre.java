@@ -43,7 +43,7 @@ public class JoinGenre implements Command {
         Message receipt = new Message();
         receipt.setCommand("RECEIPT");
         receipt.addHeader("receipt-id", ""+ receiptid);
-        receipt.setBody("Subscribed successfully from genre " + genre);
+        receipt.setBody("Subscribed successfully to genre " + genre);
         return receipt;
     }
 
